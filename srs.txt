@@ -1,0 +1,270 @@
+📘 SOFTWARE REQUIREMENTS SPECIFICATION (SRS)
+🏷 Product Name:
+
+NutraLingo
+
+🎯 Tagline:
+
+Your food label, decoded in your language.
+
+1️⃣ PROJECT OVERVIEW
+1.1 Purpose
+
+NutraLingo is a Progressive Web App (PWA) that enables users to scan packaged food labels written in any language, extract ingredient and nutrition information, analyze health impact based on user medical profile, and localize the explanation into the user’s native language using Lingo.dev.
+
+Localization intelligence is the core system layer.
+
+1.2 Objectives
+
+NutraLingo aims to:
+
+Eliminate health risks caused by foreign-language food packaging.
+
+Provide AI-based structured ingredient extraction.
+
+Deliver condition-based health risk analysis.
+
+Use Lingo.dev for intent-preserving multilingual medical localization.
+
+Provide voice-based explanation for accessibility.
+
+2️⃣ SYSTEM SCOPE
+
+NutraLingo will:
+
+Capture food label images (camera or upload)
+
+Extract structured data from packaging
+
+Analyze health impact
+
+Personalize based on user profile
+
+Localize explanation using Lingo.dev
+
+Provide voice explanation
+
+Display health score with interactive UI
+
+NutraLingo will NOT:
+
+Use barcode database
+
+Provide medical diagnosis
+
+Replace doctor consultation
+
+Provide regulatory compliance certification
+
+3️⃣ SYSTEM ARCHITECTURE
+3.1 High-Level Flow
+
+User → Capture Image → OCR Extraction → Structured Parsing → Health Reasoning → Lingo.dev Localization → Voice Output → UI Display
+
+3.2 Core Technology Stack
+
+Frontend:
+
+Next.js (PWA enabled)
+
+TailwindCSS
+
+Camera API
+
+Backend:
+
+Node.js + Express
+
+AI:
+
+OpenAI Vision (OCR)
+
+GPT-4o (structured extraction + health reasoning)
+
+Lingo.dev API (localization intelligence)
+
+OpenAI TTS (voice output)
+
+Deployment:
+
+Vercel (Frontend)
+
+Railway/Render (Backend)
+
+4️⃣ FUNCTIONAL REQUIREMENTS
+4.1 Image Capture Module
+
+FR-1: System shall allow user to capture image via live camera.
+
+FR-2: System shall allow image upload from gallery.
+
+FR-3: System shall compress image before backend processing.
+
+FR-4: System shall display extraction confidence score.
+
+4.2 OCR & Structured Extraction Module
+
+FR-5: System shall extract:
+
+Ingredient list
+
+Nutrition table
+
+Serving size
+
+Additives (E-codes)
+
+FR-6: System shall structure output in strict JSON format.
+
+FR-7: System shall validate numeric values (sodium, calories, sugar).
+
+FR-8: System shall request rescan if confidence < threshold.
+
+4.3 Health Reasoning Module
+
+FR-9: System shall compute Health Score (0–10).
+
+FR-10: System shall detect:
+
+High sodium
+
+Hidden sugar variants
+
+Trans fats
+
+Artificial additives
+
+FR-11: System shall adapt analysis based on user profile:
+
+Hypertension
+
+Diabetes
+
+General preventive
+
+FR-12: System shall highlight risky ingredients visually.
+
+4.4 Localization Module (CORE)
+
+FR-13: System shall use Lingo.dev to:
+
+Translate medical explanations
+
+Preserve scientific terminology
+
+Adapt tone based on language
+
+Adjust literacy level
+
+Provide culturally contextual dietary advice
+
+FR-14: System shall support minimum 3 languages initially.
+
+FR-15: System shall allow dynamic language switching.
+
+4.5 Voice Explanation Module
+
+FR-16: System shall generate voice explanation in selected language.
+
+FR-17: System shall allow replay of explanation.
+
+4.6 UI Interaction Module
+
+FR-18: System shall display animated health score dial.
+
+FR-19: System shall show ingredient highlight interaction.
+
+FR-20: System shall use emerald-green success and red-risk color signals.
+
+FR-21: System shall support mobile-first responsive layout.
+
+5️⃣ NON-FUNCTIONAL REQUIREMENTS
+5.1 Performance
+
+Image processing < 8 seconds
+
+Health reasoning < 5 seconds
+
+Localization < 3 seconds
+
+5.2 Reliability
+
+System shall handle invalid image gracefully.
+
+System shall provide fallback message if OCR fails.
+
+5.3 Usability
+
+UI must be usable with one hand.
+
+Buttons must be large (mobile-first).
+
+Text must be readable in multiple scripts.
+
+5.4 Security
+
+Images shall not be permanently stored.
+
+API keys stored in environment variables.
+
+HTTPS enforced.
+
+6️⃣ CORE DIFFERENTIATION
+
+NutraLingo is NOT a translation tool.
+
+It is:
+
+A localization-aware health intelligence system.
+
+Without Lingo.dev:
+
+Medical tone would break.
+
+Ingredient context would be lost.
+
+Cultural adaptation would fail.
+
+Literacy adaptation would fail.
+
+Lingo.dev is the core layer connecting health reasoning to human understanding.
+
+7️⃣ PRIMARY USER PERSONAS
+
+International traveler in foreign country.
+
+Hypertension patient checking sodium levels.
+
+Diabetic user checking sugar forms.
+
+Rural user needing explanation in native language.
+
+8️⃣ SUCCESS CRITERIA
+
+NutraLingo is successful if:
+
+It accurately extracts nutrition from foreign packaging.
+
+It produces structured, explainable health output.
+
+It localizes explanation in user’s native language.
+
+It demonstrates clear dependency on Lingo.dev.
+
+It delivers smooth demo under 2 minutes.
+
+9️⃣ FUTURE ROADMAP (Post Hackathon)
+
+Offline caching
+
+Allergen detection module
+
+QR emergency card
+
+Personalized diet tracking
+
+🔟 FINAL POSITIONING STATEMENT
+
+NutraLingo is:
+
+A multilingual preventive health intelligence platform that bridges the gap between complex food labels and real human understanding using AI and localization intelligence powered by Lingo.dev.

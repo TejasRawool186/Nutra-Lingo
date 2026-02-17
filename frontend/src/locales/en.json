@@ -1,0 +1,63 @@
+{
+    "app": {
+        "name": "NutraLingo",
+        "tagline": "Your food label, decoded in your language."
+    },
+    "nav": {
+        "scan": "Scan",
+        "results": "Results",
+        "profile": "Profile"
+    },
+    "scan": {
+        "title": "Scan Food Label",
+        "subtitle": "Take a photo or upload an image of any food label",
+        "cameraButton": "Open Camera",
+        "uploadButton": "Upload Image",
+        "analyzing": "Analyzing your food label...",
+        "extracting": "Extracting ingredients...",
+        "reasoning": "Analyzing health impact...",
+        "translating": "Translating results..."
+    },
+    "results": {
+        "title": "Analysis Results",
+        "healthScore": "Health Score",
+        "ingredients": "Ingredients",
+        "nutrition": "Nutrition Facts",
+        "warnings": "Health Warnings",
+        "servingSize": "Serving Size",
+        "calories": "Calories",
+        "totalFat": "Total Fat",
+        "saturatedFat": "Saturated Fat",
+        "transFat": "Trans Fat",
+        "sodium": "Sodium",
+        "totalSugars": "Total Sugars",
+        "protein": "Protein",
+        "additives": "Additives",
+        "confidence": "Extraction Confidence",
+        "listenExplanation": "Listen to Explanation",
+        "replay": "Replay",
+        "noWarnings": "No health warnings found!",
+        "rescan": "Image unclear. Please retake the photo.",
+        "summary": "Summary"
+    },
+    "profile": {
+        "title": "Health Profile",
+        "subtitle": "Select your health conditions for personalized analysis",
+        "general": "General / Preventive",
+        "hypertension": "Hypertension",
+        "diabetes": "Diabetes",
+        "saved": "Profile saved!"
+    },
+    "common": {
+        "loading": "Loading...",
+        "error": "Something went wrong",
+        "retry": "Try Again",
+        "back": "Back",
+        "language": "Language"
+    },
+    "severity": {
+        "high": "High Risk",
+        "medium": "Medium Risk",
+        "low": "Low Risk"
+    }
+}

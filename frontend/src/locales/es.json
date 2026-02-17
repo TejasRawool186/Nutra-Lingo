@@ -1,0 +1,63 @@
+{
+    "app": {
+        "name": "NutraLingo",
+        "tagline": "Tu etiqueta de alimentos, decodificada en tu idioma."
+    },
+    "nav": {
+        "scan": "Escanear",
+        "results": "Resultados",
+        "profile": "Perfil"
+    },
+    "scan": {
+        "title": "Escanear Etiqueta",
+        "subtitle": "Toma una foto o sube una imagen de cualquier etiqueta de alimentos",
+        "cameraButton": "Abrir Cámara",
+        "uploadButton": "Subir Imagen",
+        "analyzing": "Analizando tu etiqueta de alimentos...",
+        "extracting": "Extrayendo ingredientes...",
+        "reasoning": "Analizando impacto en salud...",
+        "translating": "Traduciendo resultados..."
+    },
+    "results": {
+        "title": "Resultados del Análisis",
+        "healthScore": "Puntuación de Salud",
+        "ingredients": "Ingredientes",
+        "nutrition": "Datos Nutricionales",
+        "warnings": "Advertencias de Salud",
+        "servingSize": "Tamaño de Porción",
+        "calories": "Calorías",
+        "totalFat": "Grasa Total",
+        "saturatedFat": "Grasa Saturada",
+        "transFat": "Grasa Trans",
+        "sodium": "Sodio",
+        "totalSugars": "Azúcares Totales",
+        "protein": "Proteína",
+        "additives": "Aditivos",
+        "confidence": "Confianza de Extracción",
+        "listenExplanation": "Escuchar Explicación",
+        "replay": "Reproducir de Nuevo",
+        "noWarnings": "¡No se encontraron advertencias de salud!",
+        "rescan": "Imagen poco clara. Por favor, vuelve a tomar la foto.",
+        "summary": "Resumen"
+    },
+    "profile": {
+        "title": "Perfil de Salud",
+        "subtitle": "Selecciona tus condiciones de salud para un análisis personalizado",
+        "general": "General / Preventivo",
+        "hypertension": "Hipertensión",
+        "diabetes": "Diabetes",
+        "saved": "¡Perfil guardado!"
+    },
+    "common": {
+        "loading": "Cargando...",
+        "error": "Algo salió mal",
+        "retry": "Intentar de Nuevo",
+        "back": "Atrás",
+        "language": "Idioma"
+    },
+    "severity": {
+        "high": "Alto Riesgo",
+        "medium": "Riesgo Medio",
+        "low": "Bajo Riesgo"
+    }
+}
