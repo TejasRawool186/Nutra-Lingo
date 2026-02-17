@@ -63,14 +63,30 @@ function ScanPage() {
             </div>
 
             {status !== 'idle' && status !== 'done' && status !== 'error' && (
-              <LoadingSpinner
-                message={t(`scan.${status === 'extracting' ? 'extracting' : status === 'reasoning' ? 'reasoning' : 'analyzing'}`, 'Analyzing...')}
-              />
+              <div className="analysis-stages">
+                <LoadingSpinner
+                  message={
+                    status === 'extracting' ? '📸 Extracting ingredients from label...'
+                      : status === 'reasoning' ? '🧠 Analyzing health impact...'
+                        : status === 'localizing' ? '🌐 Translating to your language...'
+                          : '🔍 Processing image...'
+                  }
+                />
+                <div className="stage-pills">
+                  <span className={`stage-pill ${['extracting', 'reasoning', 'localizing', 'done'].includes(status) ? 'active' : ''}`}>📸 Extract</span>
+                  <span className="stage-arrow">→</span>
+                  <span className={`stage-pill ${['reasoning', 'localizing', 'done'].includes(status) ? 'active' : ''}`}>🧠 Analyze</span>
+                  <span className="stage-arrow">→</span>
+                  <span className={`stage-pill ${['localizing', 'done'].includes(status) ? 'active' : ''}`}>🌐 Translate</span>
+                  <span className="stage-arrow">→</span>
+                  <span className={`stage-pill ${status === 'done' ? 'active' : ''}`}>✅ Done</span>
+                </div>
+              </div>
             )}
 
             {error && (
               <div className="error-card">
-                <p>{error}</p>
+                <p>❌ {error}</p>
                 <button onClick={handleNewScan} className="btn-primary">
                   {t('common.retry', 'Try Again')}
                 </button>
@@ -88,6 +104,27 @@ function ScanPage() {
               <h2 className="page-title">{t('results.title', 'Analysis Results')}</h2>
               <ConfidenceBadge confidence={results.confidence} />
             </div>
+
+            {/* 🔹 Lingo.dev — Show detected label language */}
+            {results.detectedLanguage && results.detectedLanguage !== 'unknown' && (
+              <div className="detected-lang-pill">
+                🌐 Label detected in: <strong>{results.detectedLanguage.toUpperCase()}</strong>
+              </div>
+            )}
+
+            {/* 🔹 Lingo.dev — Localize button if non-English and not yet localized */}
+            {locale !== 'en' && !localizedResults && status !== 'localizing' && (
+              <button
+                onClick={() => localize(results.healthReport, locale, profile)}
+                className="btn-secondary btn-full"
+                style={{ marginBottom: '16px' }}
+              >
+                🌐 {t('results.translate', `Translate to ${locale.toUpperCase()}`)}
+              </button>
+            )}
+            {status === 'localizing' && (
+              <LoadingSpinner message="🌐 Translating report..." />
+            )}
 
             <HealthScoreDial
               score={activeReport?.score || 0}

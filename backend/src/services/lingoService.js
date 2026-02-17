@@ -1,12 +1,33 @@
+const { LingoDotDevEngine } = require('lingo.dev/sdk');
 const logger = require('../utils/logger');
+
+// 🔹 Lingo.dev SDK — Initialize the localization engine
+const lingoDotDev = new LingoDotDevEngine({
+    apiKey: process.env.LINGO_API_KEY,
+});
+
+const LANGUAGE_NAMES = {
+    en: 'English',
+    hi: 'Hindi',
+    es: 'Spanish',
+    mr: 'Marathi',
+    ta: 'Tamil',
+    te: 'Telugu',
+    bn: 'Bengali',
+    fr: 'French',
+    de: 'German',
+    ja: 'Japanese',
+    zh: 'Chinese',
+    ar: 'Arabic',
+    ko: 'Korean',
+};
 
 /**
  * 🔹 Lingo.dev Localization Service.
- * Localizes health report content preserving medical tone,
- * cultural context, and literacy adaptation.
- *
- * Uses Lingo.dev API to translate structured health data
- * into the user's native language.
+ * 
+ * Uses Lingo.dev SDK to localize health report content at runtime.
+ * Preserves medical tone, cultural context, and literacy adaptation
+ * through Lingo.dev's AI-powered localization engine.
  *
  * @param {object} healthReport - Health report { score, verdict, warnings[], summary }
  * @param {string} targetLanguage - ISO language code (e.g., "hi", "es")
@@ -22,81 +43,90 @@ async function localizeReport(healthReport, targetLanguage, profile = {}) {
         return {
             localizedReport: healthReport,
             language: 'en',
-            languageName: 'English'
+            languageName: 'English',
         };
     }
 
     try {
-        // Prepare content for Lingo.dev translation
-        // We translate the user-facing text fields while preserving structure
-        const textsToTranslate = {
+        // Build the object to localize — only user-facing text fields
+        const contentToLocalize = {
             verdict: healthReport.verdict,
             summary: healthReport.summary,
-            warnings: healthReport.warnings.map(w => ({
-                ingredient: w.ingredient,
-                risk: w.risk
-            }))
         };
 
-        // --- Lingo.dev API Integration ---
-        // TODO: Replace with actual Lingo.dev SDK call when API key is configured
-        // For now, using a placeholder that shows the integration point
-        //
-        // Expected Lingo.dev usage:
-        // const { LingoDev } = require('lingo.dev');
-        // const lingo = new LingoDev({ apiKey: process.env.LINGO_API_KEY });
-        // const translated = await lingo.translate({
-        //   content: textsToTranslate,
-        //   from: 'en',
-        //   to: targetLanguage,
-        //   context: 'medical nutrition analysis',
-        //   preserveTerms: ['mg', 'g', 'kcal', 'DV', '%'],
-        //   tone: 'informative',
-        //   literacyLevel: 'general'
-        // });
+        // Add warning texts
+        if (healthReport.warnings && healthReport.warnings.length > 0) {
+            contentToLocalize.warnings = {};
+            healthReport.warnings.forEach((w, i) => {
+                contentToLocalize.warnings[`w${i}_ingredient`] = w.ingredient;
+                contentToLocalize.warnings[`w${i}_risk`] = w.risk;
+            });
+        }
 
-        // Placeholder: actual Lingo.dev integration will be implemented on Day 4
+        // 🔹 Lingo.dev SDK — localizeObject preserves structure and keys,
+        //    translates only the values with medical/health context awareness
+        const translated = await lingoDotDev.localizeObject(contentToLocalize, {
+            sourceLocale: 'en',
+            targetLocale: targetLanguage,
+        });
+
+        // Reconstruct the localized report
         const localizedReport = {
             score: healthReport.score,
-            verdict: `[${targetLanguage}] ${healthReport.verdict}`,
-            warnings: healthReport.warnings.map(w => ({
-                ...w,
-                ingredient: `[${targetLanguage}] ${w.ingredient}`,
-                risk: `[${targetLanguage}] ${w.risk}`
+            verdict: translated.verdict || healthReport.verdict,
+            summary: translated.summary || healthReport.summary,
+            warnings: healthReport.warnings.map((w, i) => ({
+                type: w.type,
+                ingredient: translated.warnings?.[`w${i}_ingredient`] || w.ingredient,
+                risk: translated.warnings?.[`w${i}_risk`] || w.risk,
+                severity: w.severity,
             })),
-            summary: `[${targetLanguage}] ${healthReport.summary}`
-        };
-
-        const languageNames = {
-            hi: 'Hindi',
-            es: 'Spanish',
-            mr: 'Marathi',
-            ta: 'Tamil',
-            te: 'Telugu',
-            bn: 'Bengali',
-            fr: 'French',
-            de: 'German',
-            ja: 'Japanese',
-            zh: 'Chinese',
-            ar: 'Arabic',
-            ko: 'Korean'
         };
 
         const elapsed = Date.now() - startTime;
-        logger.info('Localization complete', { elapsed: `${elapsed}ms`, targetLanguage });
+        logger.info('Lingo.dev localization complete', {
+            elapsed: `${elapsed}ms`,
+            targetLanguage,
+        });
 
         return {
             localizedReport,
             language: targetLanguage,
-            languageName: languageNames[targetLanguage] || targetLanguage
+            languageName: LANGUAGE_NAMES[targetLanguage] || targetLanguage,
         };
     } catch (error) {
-        logger.error('Localization failed', { error: error.message, targetLanguage });
-        throw Object.assign(new Error('Translation service unavailable. Showing results in English.'), {
-            statusCode: 500,
-            code: 'LOCALIZATION_ERROR'
+        logger.error('Lingo.dev localization failed', {
+            error: error.message,
+            targetLanguage,
         });
+
+        // Fallback: return English report if localization fails
+        return {
+            localizedReport: healthReport,
+            language: targetLanguage,
+            languageName: LANGUAGE_NAMES[targetLanguage] || targetLanguage,
+            fallback: true,
+            error: 'Translation service temporarily unavailable. Showing English.',
+        };
     }
 }
 
-module.exports = { localizeReport };
+/**
+ * 🔹 Lingo.dev SDK — Detect the language of input text.
+ * Useful for identifying the language of a food label.
+ *
+ * @param {string} text - Text to recognize
+ * @returns {Promise<string>} ISO language code
+ */
+async function detectLanguage(text) {
+    try {
+        const locale = await lingoDotDev.recognizeLocale(text);
+        logger.info('Language detected', { locale });
+        return locale;
+    } catch (error) {
+        logger.warn('Language detection failed', { error: error.message });
+        return 'unknown';
+    }
+}
+
+module.exports = { localizeReport, detectLanguage };

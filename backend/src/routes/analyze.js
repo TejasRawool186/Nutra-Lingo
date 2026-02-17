@@ -6,14 +6,15 @@ const { validateExtraction } = require('../validators/jsonValidator');
 const { compressImage } = require('../utils/imageCompressor');
 const { extractFromImage } = require('../services/visionService');
 const { analyzeHealth } = require('../services/healthService');
+const { detectLanguage } = require('../services/lingoService');
 
 /**
  * POST /api/analyze
  *
- * 🔹 OpenAI Vision + GPT-4o
+ * 🔹 OpenAI Vision + GPT-4o + 🔹 Lingo.dev (language detection)
  *
  * Accepts a food label image + user profile,
- * returns structured extraction + health analysis.
+ * returns structured extraction + health analysis + detected label language.
  *
  * Body: { image: string (base64), profile: { conditions: string[], language: string } }
  */
@@ -47,18 +48,31 @@ router.post('/', async (req, res, next) => {
             });
         }
 
-        // --- 5. Health reasoning ---
+        // --- 5. 🔹 Lingo.dev — Detect original label language ---
+        let detectedLanguage = 'unknown';
+        try {
+            const ingredientText = extraction.ingredients?.join(', ') || '';
+            if (ingredientText.length > 5) {
+                detectedLanguage = await detectLanguage(ingredientText);
+            }
+        } catch (langError) {
+            logger.warn('Language detection skipped', { error: langError.message });
+        }
+
+        // --- 6. Health reasoning ---
         const conditions = profile.conditions || ['general'];
         const healthReport = await analyzeHealth(extraction, { conditions });
 
-        // --- 6. Return results ---
+        // --- 7. Return results ---
         logger.info('Analysis complete', {
             confidence: validation.confidence,
-            healthScore: healthReport.score
+            healthScore: healthReport.score,
+            detectedLanguage
         });
 
         res.json({
             confidence: validation.confidence,
+            detectedLanguage,
             extraction,
             healthReport
         });
