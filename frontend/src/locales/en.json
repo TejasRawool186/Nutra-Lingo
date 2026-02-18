@@ -61,8 +61,22 @@
         "general": "General / Preventive",
         "hypertension": "Hypertension",
         "diabetes": "Diabetes",
-        "saved": "Profile saved!",
-        "allergies": "Allergies",
+        "saved": "Profile saved!"
+    },
+    "mascot": {
+        "tips": [
+            "Drink plenty of water today! 💧",
+            "An apple a day keeps the doctor away! 🍎",
+            "Check for hidden sugars in processed foods! 🍬",
+            "Fiber is your friend for digestion! 🌾",
+            "Colorful plates are healthy plates! 🌈",
+            "Don't skip breakfast! 🍳",
+            "Limit salt intake for a healthy heart! ❤️",
+            "Protein helps build and repair muscles! 💪"
+        ]
+    },
+    "allergies": {
+        "title": "Allergies",
         "allergiesSubtitle": "Select ingredients you are allergic to",
         "peanuts": "Peanuts",
         "dairy": "Dairy",

@@ -21,6 +21,7 @@ import ProfileForm from '@/components/profile/ProfileForm';
 import { useLocale } from '@/context/LocaleContext';
 import { useProfile } from '@/context/ProfileContext';
 import ChatAssistant from '@/components/chat/ChatAssistant';
+import Mascot from '@/components/ui/Mascot';
 import {
   Sparkles, Camera, Brain, Globe, Search, CheckCircle2,
   AlertCircle, FileText, FlaskConical, ScanLine, BarChart3,
@@ -340,6 +341,9 @@ function ScanPage() {
         {(results || mealResults) && (
           <ChatAssistant contextData={results?.healthReport || mealResults} />
         )}
+
+        {/* Mascot - Always visible on scan/home page */}
+        {view === 'scan' && <Mascot />}
       </main>
 
       {/* Bottom Navigation */}
