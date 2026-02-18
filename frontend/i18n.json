@@ -5,7 +5,24 @@
         "source": "en",
         "targets": [
             "hi",
-            "es"
+            "es",
+            "mr",
+            "ta",
+            "fr",
+            "de",
+            "pt",
+            "ja",
+            "ko",
+            "zh",
+            "ar",
+            "ru",
+            "bn",
+            "te",
+            "kn",
+            "gu",
+            "it",
+            "tr",
+            "th"
         ]
     },
     "buckets": {

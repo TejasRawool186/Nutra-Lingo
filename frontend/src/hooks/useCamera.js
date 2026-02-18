@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 
 /**
  * Custom hook for Camera API access.
@@ -10,7 +10,13 @@ export function useCamera() {
     const [stream, setStream] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
     const [error, setError] = useState(null);
+    const [hasCamera, setHasCamera] = useState(false); // Start false to match SSR
     const videoRef = useRef(null);
+
+    // Detect camera support client-side only (avoids hydration mismatch)
+    useEffect(() => {
+        setHasCamera(!!navigator?.mediaDevices);
+    }, []);
 
     const openCamera = useCallback(async () => {
         try {
@@ -64,6 +70,6 @@ export function useCamera() {
         openCamera,
         capture,
         closeCamera,
-        hasCamera: typeof navigator !== 'undefined' && !!navigator.mediaDevices
+        hasCamera
     };
 }

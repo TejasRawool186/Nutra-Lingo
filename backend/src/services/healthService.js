@@ -1,75 +1,60 @@
-const OpenAI = require('openai');
+const Groq = require('groq-sdk');
 const logger = require('../utils/logger');
 const { HEALTH_REASONING_PROMPT } = require('../prompts/health.prompt');
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 /**
- * 🔹 GPT-4o Health Reasoning Engine.
- * Analyzes extracted nutrition data against user health profile.
+ * Analyze health impact of extracted food label data using Groq LLM.
  *
- * @param {object} extraction - Structured nutrition data from visionService
+ * Uses llama-3.3-70b-versatile for health reasoning.
+ * Adapts analysis based on user health profile (diabetes, hypertension, etc.)
+ *
+ * @param {object} extraction - Structured extraction from visionService
  * @param {object} profile - User profile { conditions: string[] }
  * @returns {Promise<object>} Health report { score, verdict, warnings[], summary }
  */
-async function analyzeHealth(extraction, profile) {
-    logger.info('Starting health analysis...', { conditions: profile.conditions });
+async function analyzeHealth(extraction, profile = {}) {
     const startTime = Date.now();
+    const conditions = profile.conditions || ['general'];
 
-    const userMessage = `
-EXTRACTED NUTRITION DATA:
+    logger.info('Starting Groq health analysis...', { conditions });
+
+    const systemPrompt = HEALTH_REASONING_PROMPT;
+    const userPrompt = `Analyze this food label extraction for health impact:
+
 ${JSON.stringify(extraction, null, 2)}
 
-USER HEALTH PROFILE:
-- Conditions: ${profile.conditions.join(', ')}
+User health conditions: ${conditions.join(', ')}
 
-Analyze this product and generate a health report.`;
+Return a JSON health report with: score (1-10), verdict, warnings array, and summary.`;
 
-    try {
-        const response = await openai.chat.completions.create({
-            model: 'gpt-4o',
-            messages: [
-                { role: 'system', content: HEALTH_REASONING_PROMPT },
-                { role: 'user', content: userMessage }
-            ],
-            max_tokens: 1500,
-            temperature: 0.2
-        });
+    const completion = await groq.chat.completions.create({
+        model: 'llama-3.3-70b-versatile',
+        messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: userPrompt }
+        ],
+        temperature: 0.2,
+        max_tokens: 2000,
+        response_format: { type: 'json_object' }
+    });
 
-        const content = response.choices[0]?.message?.content;
-        if (!content) {
-            throw new Error('Empty response from health reasoning engine');
-        }
-
-        const jsonStr = content.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-        const healthReport = JSON.parse(jsonStr);
-
-        // Ensure score is within bounds
-        healthReport.score = Math.max(0, Math.min(10, healthReport.score));
-
-        const elapsed = Date.now() - startTime;
-        logger.info('Health analysis complete', {
-            elapsed: `${elapsed}ms`,
-            score: healthReport.score,
-            warningCount: healthReport.warnings?.length || 0
-        });
-
-        return healthReport;
-    } catch (error) {
-        logger.error('Health analysis failed', { error: error.message });
-
-        if (error instanceof SyntaxError) {
-            throw Object.assign(new Error('Failed to generate health report. Please retry.'), {
-                statusCode: 422,
-                code: 'HEALTH_PARSE_ERROR'
-            });
-        }
-
-        throw Object.assign(new Error('Health analysis service unavailable.'), {
-            statusCode: 500,
-            code: 'HEALTH_ERROR'
-        });
+    const responseText = completion.choices[0]?.message?.content;
+    if (!responseText) {
+        throw new Error('No response from Groq health analysis');
     }
+
+    const healthReport = JSON.parse(responseText);
+    const elapsed = Date.now() - startTime;
+
+    logger.info('Groq health analysis complete', {
+        elapsed: `${elapsed}ms`,
+        score: healthReport.score,
+        warningCount: healthReport.warnings?.length || 0
+    });
+
+    return healthReport;
 }
 
 module.exports = { analyzeHealth };

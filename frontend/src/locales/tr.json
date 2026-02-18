@@ -1,0 +1,82 @@
+{
+    "app": {
+        "name": "NutraLingo",
+        "tagline": "Gıda etiketinizi kendi dilinizde çözümleyin."
+    },
+    "nav": {
+        "scan": "Tara",
+        "results": "Sonuçlar",
+        "profile": "Profil",
+        "meal": "Yemek"
+    },
+    "scan": {
+        "title": "Gıda etiketini tara",
+        "subtitle": "Herhangi bir gıda etiketinin fotoğrafını çekin veya görsel yükleyin",
+        "cameraButton": "Kamerayı aç",
+        "uploadButton": "Görsel yükle",
+        "analyzing": "Gıda etiketiniz analiz ediliyor...",
+        "extracting": "İçerikler çıkarılıyor...",
+        "reasoning": "Sağlık etkisi analiz ediliyor...",
+        "translating": "Sonuçlar çevriliyor..."
+    },
+    "results": {
+        "title": "Analiz sonuçları",
+        "healthScore": "Sağlık puanı",
+        "ingredients": "İçerikler",
+        "nutrition": "Besin değerleri",
+        "warnings": "Sağlık uyarıları",
+        "servingSize": "Porsiyon boyutu",
+        "calories": "Kalori",
+        "totalFat": "Toplam yağ",
+        "saturatedFat": "Doymuş yağ",
+        "transFat": "Trans yağ",
+        "sodium": "Sodyum",
+        "totalSugars": "Toplam şeker",
+        "protein": "Protein",
+        "additives": "Katkı maddeleri",
+        "confidence": "Çıkarma güvenilirliği",
+        "listenExplanation": "Açıklamayı dinle",
+        "replay": "Tekrar oynat",
+        "noWarnings": "Sağlık uyarısı bulunamadı!",
+        "rescan": "Görüntü net değil. Lütfen tekrar fotoğraf çekin.",
+        "summary": "Özet"
+    },
+    "profile": {
+        "title": "Sağlık profili",
+        "subtitle": "Kişiselleştirilmiş analiz için sağlık durumlarınızı seçin",
+        "general": "Genel / Önleyici",
+        "hypertension": "Hipertansiyon",
+        "diabetes": "Diyabet",
+        "saved": "Profil kaydedildi!"
+    },
+    "common": {
+        "loading": "Yükleniyor...",
+        "error": "Bir şeyler ters gitti",
+        "retry": "Tekrar dene",
+        "back": "Geri",
+        "language": "Dil"
+    },
+    "severity": {
+        "high": "Yüksek risk",
+        "medium": "Orta risk",
+        "low": "Düşük risk"
+    },
+    "meal": {
+        "title": "Yemeğinizi analiz edin",
+        "subtitle": "Anlık beslenme analizi için herhangi bir yemeğin fotoğrafını çekin",
+        "analyzing": "Gemini AI ile yemeğiniz analiz ediliyor...",
+        "resultsTitle": "Yemek analizi",
+        "totalNutrition": "Toplam beslenme",
+        "protein": "Protein",
+        "carbs": "Karbonhidrat",
+        "fat": "Yağ",
+        "foodItems": "Tespit edilen yiyecekler",
+        "analyzedAt": "Analiz tarihi",
+        "analyzeAnother": "Başka bir yemek analiz et"
+    },
+    "alternatives": {
+        "title": "Daha sağlıklı alternatifler",
+        "find": "Daha sağlıklı seçenekler bul",
+        "loading": "Daha sağlıklı seçenekler aranıyor..."
+    }
+}

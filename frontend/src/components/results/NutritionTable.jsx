@@ -1,10 +1,10 @@
 'use client';
 
 import { useLocale } from '@/context/LocaleContext';
+import { BarChart3 } from 'lucide-react';
 
 /**
- * Parsed nutrition facts table.
- * Clean, mobile-friendly display of nutrition values.
+ * Parsed nutrition facts table with Lucide icon.
  *
  * @param {{ nutrition: object }} props
  */
@@ -27,7 +27,8 @@ export default function NutritionTable({ nutrition = {} }) {
     return (
         <div className="nutrition-table section-card">
             <h3 className="section-title">
-                📊 {t('results.nutrition', 'Nutrition Facts')}
+                <BarChart3 size={18} />
+                {t('results.nutrition', 'Nutrition Facts')}
             </h3>
             <table className="nt-table">
                 <tbody>

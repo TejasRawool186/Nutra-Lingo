@@ -6,7 +6,8 @@
     "nav": {
         "scan": "Scan",
         "results": "Results",
-        "profile": "Profile"
+        "profile": "Profile",
+        "meal": "Meal"
     },
     "scan": {
         "title": "Scan Food Label",
@@ -40,6 +41,19 @@
         "rescan": "Image unclear. Please retake the photo.",
         "summary": "Summary"
     },
+    "meal": {
+        "title": "Analyze Your Meal",
+        "subtitle": "Take a photo of any dish to get instant nutritional breakdown",
+        "analyzing": "Analyzing your meal with Gemini AI...",
+        "resultsTitle": "Meal Analysis",
+        "totalNutrition": "Total Nutrition",
+        "protein": "Protein",
+        "carbs": "Carbs",
+        "fat": "Fat",
+        "foodItems": "Food Items Detected",
+        "analyzedAt": "Analyzed on",
+        "analyzeAnother": "Analyze Another Meal"
+    },
     "profile": {
         "title": "Health Profile",
         "subtitle": "Select your health conditions for personalized analysis",
@@ -59,5 +73,10 @@
         "high": "High Risk",
         "medium": "Medium Risk",
         "low": "Low Risk"
+    },
+    "alternatives": {
+        "title": "Healthier Alternatives",
+        "find": "Find Healthier Options",
+        "loading": "Finding healthier options..."
     }
 }

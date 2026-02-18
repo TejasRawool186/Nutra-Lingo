@@ -1,0 +1,82 @@
+{
+    "app": {
+        "name": "NutraLingo",
+        "tagline": "Ihr Lebensmitteletikett, in Ihrer Sprache entschlüsselt."
+    },
+    "nav": {
+        "scan": "Scannen",
+        "results": "Ergebnisse",
+        "profile": "Profil",
+        "meal": "Mahlzeit"
+    },
+    "scan": {
+        "title": "Lebensmitteletikett scannen",
+        "subtitle": "Fotografieren oder laden Sie ein Bild eines Lebensmitteletiketts hoch",
+        "cameraButton": "Kamera öffnen",
+        "uploadButton": "Bild hochladen",
+        "analyzing": "Ihr Lebensmitteletikett wird analysiert...",
+        "extracting": "Zutaten werden extrahiert...",
+        "reasoning": "Gesundheitliche Auswirkungen werden analysiert...",
+        "translating": "Ergebnisse werden übersetzt..."
+    },
+    "results": {
+        "title": "Analyseergebnisse",
+        "healthScore": "Gesundheitswert",
+        "ingredients": "Zutaten",
+        "nutrition": "Nährwertangaben",
+        "warnings": "Gesundheitswarnungen",
+        "servingSize": "Portionsgröße",
+        "calories": "Kalorien",
+        "totalFat": "Gesamtfett",
+        "saturatedFat": "Gesättigte Fettsäuren",
+        "transFat": "Transfett",
+        "sodium": "Natrium",
+        "totalSugars": "Gesamtzucker",
+        "protein": "Eiweiß",
+        "additives": "Zusatzstoffe",
+        "confidence": "Extraktionsvertrauen",
+        "listenExplanation": "Erklärung anhören",
+        "replay": "Wiederholen",
+        "noWarnings": "Keine Gesundheitswarnungen gefunden!",
+        "rescan": "Bild unklar. Bitte erneut fotografieren.",
+        "summary": "Zusammenfassung"
+    },
+    "profile": {
+        "title": "Gesundheitsprofil",
+        "subtitle": "Wählen Sie Ihre Gesundheitszustände für eine personalisierte Analyse",
+        "general": "Allgemein / Vorbeugend",
+        "hypertension": "Bluthochdruck",
+        "diabetes": "Diabetes",
+        "saved": "Profil gespeichert!"
+    },
+    "common": {
+        "loading": "Wird geladen...",
+        "error": "Etwas ist schiefgelaufen",
+        "retry": "Erneut versuchen",
+        "back": "Zurück",
+        "language": "Sprache"
+    },
+    "severity": {
+        "high": "Hohes Risiko",
+        "medium": "Mittleres Risiko",
+        "low": "Geringes Risiko"
+    },
+    "meal": {
+        "title": "Analysiere deine Mahlzeit",
+        "subtitle": "Fotografiere ein Gericht für eine sofortige Nährwertanalyse",
+        "analyzing": "Deine Mahlzeit wird mit Gemini AI analysiert...",
+        "resultsTitle": "Mahlzeitanalyse",
+        "totalNutrition": "Gesamternährung",
+        "protein": "Protein",
+        "carbs": "Kohlenhydrate",
+        "fat": "Fett",
+        "foodItems": "Erkannte Lebensmittel",
+        "analyzedAt": "Analysiert am",
+        "analyzeAnother": "Weitere Mahlzeit analysieren"
+    },
+    "alternatives": {
+        "title": "Gesündere Alternativen",
+        "find": "Gesündere Optionen finden",
+        "loading": "Suche nach gesünderen Optionen..."
+    }
+}

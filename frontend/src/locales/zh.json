@@ -1,0 +1,82 @@
+{
+    "app": {
+        "name": "NutraLingo",
+        "tagline": "用您的语言解读食品标签。"
+    },
+    "nav": {
+        "scan": "扫描",
+        "results": "结果",
+        "profile": "个人资料",
+        "meal": "餐食"
+    },
+    "scan": {
+        "title": "扫描食品标签",
+        "subtitle": "拍摄或上传任何食品标签的图片",
+        "cameraButton": "打开相机",
+        "uploadButton": "上传图片",
+        "analyzing": "正在分析您的食品标签...",
+        "extracting": "正在提取成分...",
+        "reasoning": "正在分析健康影响...",
+        "translating": "正在翻译结果..."
+    },
+    "results": {
+        "title": "分析结果",
+        "healthScore": "健康评分",
+        "ingredients": "成分",
+        "nutrition": "营养成分",
+        "warnings": "健康警告",
+        "servingSize": "每份含量",
+        "calories": "卡路里",
+        "totalFat": "总脂肪",
+        "saturatedFat": "饱和脂肪",
+        "transFat": "反式脂肪",
+        "sodium": "钠",
+        "totalSugars": "总糖",
+        "protein": "蛋白质",
+        "additives": "添加剂",
+        "confidence": "提取置信度",
+        "listenExplanation": "听取说明",
+        "replay": "重播",
+        "noWarnings": "未发现健康警告！",
+        "rescan": "图片不清晰，请重新拍照。",
+        "summary": "摘要"
+    },
+    "profile": {
+        "title": "健康档案",
+        "subtitle": "选择您的健康状况以获得个性化分析",
+        "general": "一般 / 预防",
+        "hypertension": "高血压",
+        "diabetes": "糖尿病",
+        "saved": "档案已保存！"
+    },
+    "common": {
+        "loading": "加载中...",
+        "error": "出了点问题",
+        "retry": "重试",
+        "back": "返回",
+        "language": "语言"
+    },
+    "severity": {
+        "high": "高风险",
+        "medium": "中风险",
+        "low": "低风险"
+    },
+    "meal": {
+        "title": "分析您的餐食",
+        "subtitle": "拍摄任何菜肴的照片，即时获取营养分析",
+        "analyzing": "正在使用Gemini AI分析您的餐食...",
+        "resultsTitle": "餐食分析",
+        "totalNutrition": "总营养",
+        "protein": "蛋白质",
+        "carbs": "碳水化合物",
+        "fat": "脂肪",
+        "foodItems": "检测到的食物",
+        "analyzedAt": "分析于",
+        "analyzeAnother": "分析另一餐"
+    },
+    "alternatives": {
+        "title": "更健康的替代品",
+        "find": "寻找更健康的选择",
+        "loading": "正在寻找更健康的选择..."
+    }
+}

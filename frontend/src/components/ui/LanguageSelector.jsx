@@ -1,17 +1,19 @@
 'use client';
 
 import { useLocale } from '@/context/LocaleContext';
+import { Globe } from 'lucide-react';
 
 /**
- * 🔹 Lingo.dev — Dynamic Language Selector.
- * Allows users to switch UI and report language at any time.
+ * Lingo.dev — Dynamic Language Selector with Lucide globe icon.
  */
 export default function LanguageSelector() {
     const { locale, switchLanguage, supportedLanguages } = useLocale();
 
     return (
         <div className="language-selector">
-            <label htmlFor="lang-select" className="lang-label">🌐</label>
+            <label htmlFor="lang-select" className="lang-label">
+                <Globe size={18} color="var(--green-600)" />
+            </label>
             <select
                 id="lang-select"
                 value={locale}

@@ -1,0 +1,82 @@
+{
+    "app": {
+        "name": "NutraLingo",
+        "tagline": "식품 라벨을 당신의 언어로 해독합니다."
+    },
+    "nav": {
+        "scan": "스캔",
+        "results": "결과",
+        "profile": "프로필",
+        "meal": "식사"
+    },
+    "scan": {
+        "title": "식품 라벨 스캔",
+        "subtitle": "식품 라벨 사진을 찍거나 이미지를 업로드하세요",
+        "cameraButton": "카메라 열기",
+        "uploadButton": "이미지 업로드",
+        "analyzing": "식품 라벨 분석 중...",
+        "extracting": "성분 추출 중...",
+        "reasoning": "건강 영향 분석 중...",
+        "translating": "결과 번역 중..."
+    },
+    "results": {
+        "title": "분석 결과",
+        "healthScore": "건강 점수",
+        "ingredients": "성분",
+        "nutrition": "영양 정보",
+        "warnings": "건강 경고",
+        "servingSize": "1회 제공량",
+        "calories": "칼로리",
+        "totalFat": "총 지방",
+        "saturatedFat": "포화 지방",
+        "transFat": "트랜스 지방",
+        "sodium": "나트륨",
+        "totalSugars": "총 당류",
+        "protein": "단백질",
+        "additives": "첨가물",
+        "confidence": "추출 신뢰도",
+        "listenExplanation": "설명 듣기",
+        "replay": "다시 재생",
+        "noWarnings": "건강 경고가 없습니다!",
+        "rescan": "이미지가 불명확합니다. 다시 촬영해 주세요.",
+        "summary": "요약"
+    },
+    "profile": {
+        "title": "건강 프로필",
+        "subtitle": "맞춤 분석을 위해 건강 상태를 선택하세요",
+        "general": "일반 / 예방",
+        "hypertension": "고혈압",
+        "diabetes": "당뇨병",
+        "saved": "프로필이 저장되었습니다!"
+    },
+    "common": {
+        "loading": "로딩 중...",
+        "error": "문제가 발생했습니다",
+        "retry": "다시 시도",
+        "back": "뒤로",
+        "language": "언어"
+    },
+    "severity": {
+        "high": "고위험",
+        "medium": "중위험",
+        "low": "저위험"
+    },
+    "meal": {
+        "title": "식사 분석하기",
+        "subtitle": "어떤 요리든 사진을 찍으면 즉시 영양 분석",
+        "analyzing": "Gemini AI로 식사 분석 중...",
+        "resultsTitle": "식사 분석",
+        "totalNutrition": "총 영양소",
+        "protein": "단백질",
+        "carbs": "탄수화물",
+        "fat": "지방",
+        "foodItems": "감지된 식품",
+        "analyzedAt": "분석 일시",
+        "analyzeAnother": "다른 식사 분석"
+    },
+    "alternatives": {
+        "title": "더 건강한 대안",
+        "find": "더 건강한 옵션 찾기",
+        "loading": "더 건강한 옵션을 찾는 중..."
+    }
+}

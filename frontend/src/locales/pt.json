@@ -1,0 +1,82 @@
+{
+    "app": {
+        "name": "NutraLingo",
+        "tagline": "Seu rótulo alimentar, decodificado no seu idioma."
+    },
+    "nav": {
+        "scan": "Escanear",
+        "results": "Resultados",
+        "profile": "Perfil",
+        "meal": "Refeição"
+    },
+    "scan": {
+        "title": "Escanear rótulo alimentar",
+        "subtitle": "Tire uma foto ou carregue uma imagem de qualquer rótulo alimentar",
+        "cameraButton": "Abrir câmera",
+        "uploadButton": "Carregar imagem",
+        "analyzing": "Analisando seu rótulo alimentar...",
+        "extracting": "Extraindo ingredientes...",
+        "reasoning": "Analisando impacto na saúde...",
+        "translating": "Traduzindo resultados..."
+    },
+    "results": {
+        "title": "Resultados da análise",
+        "healthScore": "Pontuação de saúde",
+        "ingredients": "Ingredientes",
+        "nutrition": "Informações nutricionais",
+        "warnings": "Avisos de saúde",
+        "servingSize": "Tamanho da porção",
+        "calories": "Calorias",
+        "totalFat": "Gordura total",
+        "saturatedFat": "Gordura saturada",
+        "transFat": "Gordura trans",
+        "sodium": "Sódio",
+        "totalSugars": "Açúcares totais",
+        "protein": "Proteína",
+        "additives": "Aditivos",
+        "confidence": "Confiança da extração",
+        "listenExplanation": "Ouvir explicação",
+        "replay": "Repetir",
+        "noWarnings": "Nenhum aviso de saúde encontrado!",
+        "rescan": "Imagem borrada. Por favor, tire a foto novamente.",
+        "summary": "Resumo"
+    },
+    "profile": {
+        "title": "Perfil de saúde",
+        "subtitle": "Selecione suas condições de saúde para análise personalizada",
+        "general": "Geral / Preventivo",
+        "hypertension": "Hipertensão",
+        "diabetes": "Diabetes",
+        "saved": "Perfil salvo!"
+    },
+    "common": {
+        "loading": "Carregando...",
+        "error": "Algo deu errado",
+        "retry": "Tentar novamente",
+        "back": "Voltar",
+        "language": "Idioma"
+    },
+    "severity": {
+        "high": "Alto risco",
+        "medium": "Risco médio",
+        "low": "Baixo risco"
+    },
+    "meal": {
+        "title": "Analise sua refeição",
+        "subtitle": "Tire uma foto de qualquer prato para obter uma análise nutricional",
+        "analyzing": "Analisando sua refeição com Gemini AI...",
+        "resultsTitle": "Análise da refeição",
+        "totalNutrition": "Nutrição total",
+        "protein": "Proteína",
+        "carbs": "Carboidratos",
+        "fat": "Gordura",
+        "foodItems": "Alimentos detectados",
+        "analyzedAt": "Analisado em",
+        "analyzeAnother": "Analisar outra refeição"
+    },
+    "alternatives": {
+        "title": "Alternativas mais saudáveis",
+        "find": "Encontrar opções mais saudáveis",
+        "loading": "Procurando opções mais saudáveis..."
+    }
+}

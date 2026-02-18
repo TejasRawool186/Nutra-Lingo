@@ -6,7 +6,8 @@
     "nav": {
         "scan": "Escanear",
         "results": "Resultados",
-        "profile": "Perfil"
+        "profile": "Perfil",
+        "meal": "Comida"
     },
     "scan": {
         "title": "Escanear Etiqueta",
@@ -59,5 +60,23 @@
         "high": "Alto Riesgo",
         "medium": "Riesgo Medio",
         "low": "Bajo Riesgo"
+    },
+    "meal": {
+        "title": "Analiza tu comida",
+        "subtitle": "Toma una foto de cualquier plato para obtener un desglose nutricional",
+        "analyzing": "Analizando tu comida con Gemini AI...",
+        "resultsTitle": "Análisis de comida",
+        "totalNutrition": "Nutrición total",
+        "protein": "Proteína",
+        "carbs": "Carbohidratos",
+        "fat": "Grasa",
+        "foodItems": "Alimentos detectados",
+        "analyzedAt": "Analizado el",
+        "analyzeAnother": "Analizar otra comida"
+    },
+    "alternatives": {
+        "title": "Alternativas más saludables",
+        "find": "Buscar opciones más saludables",
+        "loading": "Buscando opciones más saludables..."
     }
 }

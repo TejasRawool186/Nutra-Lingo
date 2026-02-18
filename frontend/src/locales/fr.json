@@ -1,0 +1,82 @@
+{
+    "app": {
+        "name": "NutraLingo",
+        "tagline": "Votre étiquette alimentaire, décodée dans votre langue."
+    },
+    "nav": {
+        "scan": "Scanner",
+        "results": "Résultats",
+        "profile": "Profil",
+        "meal": "Repas"
+    },
+    "scan": {
+        "title": "Scanner l'étiquette alimentaire",
+        "subtitle": "Prenez une photo ou téléchargez une image de n'importe quelle étiquette alimentaire",
+        "cameraButton": "Ouvrir la caméra",
+        "uploadButton": "Télécharger une image",
+        "analyzing": "Analyse de votre étiquette alimentaire...",
+        "extracting": "Extraction des ingrédients...",
+        "reasoning": "Analyse de l'impact sur la santé...",
+        "translating": "Traduction des résultats..."
+    },
+    "results": {
+        "title": "Résultats de l'analyse",
+        "healthScore": "Score santé",
+        "ingredients": "Ingrédients",
+        "nutrition": "Informations nutritionnelles",
+        "warnings": "Avertissements santé",
+        "servingSize": "Portion",
+        "calories": "Calories",
+        "totalFat": "Matières grasses totales",
+        "saturatedFat": "Graisses saturées",
+        "transFat": "Graisses trans",
+        "sodium": "Sodium",
+        "totalSugars": "Sucres totaux",
+        "protein": "Protéines",
+        "additives": "Additifs",
+        "confidence": "Confiance d'extraction",
+        "listenExplanation": "Écouter l'explication",
+        "replay": "Rejouer",
+        "noWarnings": "Aucun avertissement santé trouvé !",
+        "rescan": "Image floue. Veuillez reprendre la photo.",
+        "summary": "Résumé"
+    },
+    "profile": {
+        "title": "Profil santé",
+        "subtitle": "Sélectionnez vos conditions de santé pour une analyse personnalisée",
+        "general": "Général / Préventif",
+        "hypertension": "Hypertension",
+        "diabetes": "Diabète",
+        "saved": "Profil enregistré !"
+    },
+    "common": {
+        "loading": "Chargement...",
+        "error": "Quelque chose s'est mal passé",
+        "retry": "Réessayer",
+        "back": "Retour",
+        "language": "Langue"
+    },
+    "severity": {
+        "high": "Risque élevé",
+        "medium": "Risque moyen",
+        "low": "Risque faible"
+    },
+    "meal": {
+        "title": "Analysez votre repas",
+        "subtitle": "Prenez une photo de n'importe quel plat pour obtenir une analyse nutritionnelle",
+        "analyzing": "Analyse de votre repas avec Gemini AI...",
+        "resultsTitle": "Analyse du repas",
+        "totalNutrition": "Nutrition totale",
+        "protein": "Protéines",
+        "carbs": "Glucides",
+        "fat": "Lipides",
+        "foodItems": "Aliments détectés",
+        "analyzedAt": "Analysé le",
+        "analyzeAnother": "Analyser un autre repas"
+    },
+    "alternatives": {
+        "title": "Alternatives plus saines",
+        "find": "Trouver des options plus saines",
+        "loading": "Recherche d'options plus saines..."
+    }
+}

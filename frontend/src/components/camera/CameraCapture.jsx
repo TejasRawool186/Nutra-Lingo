@@ -4,10 +4,10 @@ import { useRef, useEffect, useState } from 'react';
 import { useCamera } from '@/hooks/useCamera';
 import { compressImage, validateImageFile } from '@/lib/imageUtils';
 import { useLocale } from '@/context/LocaleContext';
+import { Camera, Upload, RefreshCw, X } from 'lucide-react';
 
 /**
- * Camera Capture + Image Upload component.
- * Mobile-first UI for capturing food label images.
+ * Camera Capture + Image Upload component with Lucide icons.
  *
  * @param {{ onCapture: (base64: string) => void }} props
  */
@@ -59,7 +59,8 @@ export default function CameraCapture({ onCapture }) {
             {preview && (
                 <div className="preview-wrapper">
                     <img src={preview} alt="Captured food label" className="preview-image" />
-                    <button onClick={handleRetake} className="btn-secondary">
+                    <button onClick={handleRetake} className="btn-secondary btn-full" style={{ marginTop: 0 }}>
+                        <RefreshCw size={16} />
                         {t('common.retry', 'Retake')}
                     </button>
                 </div>
@@ -79,7 +80,9 @@ export default function CameraCapture({ onCapture }) {
                         <div className="scan-frame" />
                     </div>
                     <div className="camera-controls">
-                        <button onClick={closeCamera} className="btn-cancel">✕</button>
+                        <button onClick={closeCamera} className="btn-cancel">
+                            <X size={18} />
+                        </button>
                         <button onClick={handleCapture} className="btn-shutter">
                             <div className="shutter-inner" />
                         </button>
@@ -88,12 +91,12 @@ export default function CameraCapture({ onCapture }) {
                 </div>
             )}
 
-            {/* Idle Mode — Show buttons */}
+            {/* Idle Mode */}
             {!isOpen && !preview && (
                 <div className="capture-buttons">
                     {hasCamera && (
                         <button onClick={openCamera} className="btn-primary btn-large">
-                            <span className="btn-icon">📸</span>
+                            <Camera size={20} />
                             {t('scan.cameraButton', 'Open Camera')}
                         </button>
                     )}
@@ -101,7 +104,7 @@ export default function CameraCapture({ onCapture }) {
                         onClick={() => fileInputRef.current?.click()}
                         className="btn-secondary btn-large"
                     >
-                        <span className="btn-icon">🖼️</span>
+                        <Upload size={20} />
                         {t('scan.uploadButton', 'Upload Image')}
                     </button>
                     <input

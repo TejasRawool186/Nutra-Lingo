@@ -1,59 +1,76 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocale } from '@/context/LocaleContext';
+import { Volume2, Square } from 'lucide-react';
 
 /**
- * Voice explanation player.
- * Play/replay TTS audio for health report summary.
- *
- * @param {{ audioUrl: string, onGenerate: () => void, isLoading: boolean }} props
+ * Voice explanation player — uses browser-native SpeechSynthesis.
+ * Lucide icons for play/stop states.
  */
-export default function VoicePlayer({ audioUrl, onGenerate, isLoading = false }) {
+export default function VoicePlayer({ text, onSpeak }) {
     const [isPlaying, setIsPlaying] = useState(false);
-    const audioRef = useRef(null);
-    const { t } = useLocale();
+    const [isSupported, setIsSupported] = useState(true);
+    const { t, locale } = useLocale();
+
+    useEffect(() => {
+        if (typeof window === 'undefined' || !window.speechSynthesis) {
+            setIsSupported(false);
+        }
+
+        return () => {
+            if (typeof window !== 'undefined' && window.speechSynthesis) {
+                window.speechSynthesis.cancel();
+            }
+        };
+    }, []);
 
     const handlePlay = () => {
-        if (!audioUrl) {
-            onGenerate?.();
+        if (!text) return;
+
+        if (isPlaying) {
+            window.speechSynthesis.cancel();
+            setIsPlaying(false);
             return;
         }
 
-        if (audioRef.current) {
-            audioRef.current.play();
-            setIsPlaying(true);
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = locale;
+        utterance.rate = 0.9;
+        utterance.pitch = 1.0;
+
+        const voices = window.speechSynthesis.getVoices();
+        const matchingVoice = voices.find(v => v.lang.startsWith(locale));
+        if (matchingVoice) {
+            utterance.voice = matchingVoice;
         }
+
+        utterance.onend = () => setIsPlaying(false);
+        utterance.onerror = () => setIsPlaying(false);
+
+        window.speechSynthesis.speak(utterance);
+        setIsPlaying(true);
     };
 
-    const handleEnded = () => {
-        setIsPlaying(false);
-    };
+    if (!isSupported) return null;
 
     return (
         <div className="voice-player">
-            {audioUrl && (
-                <audio
-                    ref={audioRef}
-                    src={audioUrl}
-                    onEnded={handleEnded}
-                    onPause={() => setIsPlaying(false)}
-                    onPlay={() => setIsPlaying(true)}
-                />
-            )}
             <button
                 onClick={handlePlay}
-                disabled={isLoading}
+                disabled={!text}
                 className={`btn-voice ${isPlaying ? 'playing' : ''}`}
             >
-                {isLoading ? (
-                    <span className="voice-loading">🔄 Generating...</span>
-                ) : isPlaying ? (
-                    <span>🔊 {t('results.replay', 'Playing...')}</span>
-                ) : audioUrl ? (
-                    <span>🔁 {t('results.replay', 'Replay')}</span>
+                {isPlaying ? (
+                    <>
+                        <Square size={16} />
+                        {t('results.stopSpeaking', 'Stop')}
+                    </>
                 ) : (
-                    <span>🔊 {t('results.listenExplanation', 'Listen to Explanation')}</span>
+                    <>
+                        <Volume2 size={16} />
+                        {t('results.listenExplanation', 'Listen to Explanation')}
+                    </>
                 )}
             </button>
         </div>

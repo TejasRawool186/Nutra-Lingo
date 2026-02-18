@@ -8,6 +8,8 @@ const rateLimiter = require('./src/middleware/rateLimiter');
 const analyzeRoute = require('./src/routes/analyze');
 const localizeRoute = require('./src/routes/localize');
 const ttsRoute = require('./src/routes/tts');
+const mealRoute = require('./src/routes/meal');
+const alternativesRoute = require('./src/routes/alternatives');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -26,6 +28,8 @@ app.use(rateLimiter);
 app.use('/api/analyze', analyzeRoute);
 app.use('/api/localize', localizeRoute);
 app.use('/api/tts', ttsRoute);
+app.use('/api/meal', mealRoute);
+app.use('/api/alternatives', alternativesRoute);
 
 // --- Health Check ---
 app.get('/api/health', (req, res) => {

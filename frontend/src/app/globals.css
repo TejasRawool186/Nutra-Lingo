@@ -1423,3 +1423,413 @@ body {
     font-size: 46px;
   }
 }
+
+/* ===================================================
+   Meal Analysis Results
+   =================================================== */
+
+.meal-results {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.meal-totals-card {
+  text-align: center;
+}
+
+.meal-calories-hero {
+  background: linear-gradient(135deg, var(--green-500), var(--green-600));
+  border-radius: var(--radius);
+  padding: 28px 20px;
+  margin: 16px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 8px 32px rgba(16, 185, 129, 0.25);
+}
+
+.meal-calories-number {
+  font-size: 56px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+}
+
+.meal-calories-unit {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Macro rows */
+.meal-macros {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.meal-macro-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 12px;
+}
+
+.meal-macro-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--gray-700);
+}
+
+.macro-icon.protein {
+  color: #3B82F6;
+}
+
+.macro-icon.carbs {
+  color: #EAB308;
+}
+
+.macro-icon.fat {
+  color: #F97316;
+}
+
+.meal-macro-value {
+  font-size: 13px;
+  color: var(--gray-500);
+  text-align: right;
+}
+
+.meal-macro-bar {
+  grid-column: 1 / -1;
+  height: 6px;
+  background: var(--gray-100);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.meal-macro-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.meal-macro-fill.protein {
+  background: linear-gradient(90deg, #3B82F6, #2563EB);
+}
+
+.meal-macro-fill.carbs {
+  background: linear-gradient(90deg, #EAB308, #CA8A04);
+}
+
+.meal-macro-fill.fat {
+  background: linear-gradient(90deg, #F97316, #EA580C);
+}
+
+/* Summary */
+.meal-summary-text {
+  font-size: 14px;
+  color: var(--gray-600);
+  line-height: 1.6;
+}
+
+/* Food items list */
+.meal-food-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.meal-food-item {
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 16px;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.meal-food-item:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
+}
+
+.meal-food-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.meal-food-info {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.meal-food-badge {
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(135deg, var(--green-500), var(--green-600));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.meal-food-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gray-800);
+}
+
+.meal-food-qty {
+  font-size: 12px;
+  color: var(--gray-400);
+  margin-top: 2px;
+}
+
+.meal-food-cal {
+  text-align: right;
+}
+
+.meal-food-cal-num {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--green-600);
+  line-height: 1;
+}
+
+.meal-food-cal-unit {
+  display: block;
+  font-size: 11px;
+  color: var(--gray-400);
+}
+
+/* Per-item macros */
+.meal-food-macros {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.meal-food-macro {
+  border-radius: 10px;
+  padding: 8px 10px;
+  text-align: center;
+}
+
+.meal-food-macro.protein-bg {
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.meal-food-macro.carbs-bg {
+  background: rgba(234, 179, 8, 0.08);
+}
+
+.meal-food-macro.fat-bg {
+  background: rgba(249, 115, 22, 0.08);
+}
+
+.meal-food-macro-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 2px;
+}
+
+.protein-bg .meal-food-macro-label {
+  color: #3B82F6;
+}
+
+.carbs-bg .meal-food-macro-label {
+  color: #CA8A04;
+}
+
+.fat-bg .meal-food-macro-label {
+  color: #EA580C;
+}
+
+.meal-food-macro-value {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.protein-bg .meal-food-macro-value {
+  color: #2563EB;
+}
+
+.carbs-bg .meal-food-macro-value {
+  color: #A16207;
+}
+
+.fat-bg .meal-food-macro-value {
+  color: #C2410C;
+}
+
+/* Timestamp */
+.meal-timestamp {
+  text-align: center;
+  font-size: 12px;
+  color: var(--gray-400);
+  margin-top: 4px;
+}
+
+/* ===================================================
+   Healthier Alternatives
+   =================================================== */
+
+.alternatives-section {
+  margin-top: 8px;
+}
+
+.btn-alternatives {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 20px;
+  border: 2px dashed var(--green-400);
+  border-radius: var(--radius);
+  background: rgba(16, 185, 129, 0.04);
+  color: var(--green-600);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-alternatives:hover {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: var(--green-500);
+  transform: translateY(-1px);
+}
+
+.alternatives-loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  color: var(--gray-500);
+  font-size: 14px;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.alternatives-error {
+  color: var(--red-500);
+  font-size: 13px;
+  padding: 8px 0;
+}
+
+.alternatives-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.alternative-card {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 14px;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.alternative-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
+}
+
+.alt-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.alt-badge {
+  width: 26px;
+  height: 26px;
+  background: linear-gradient(135deg, var(--green-500), var(--green-600));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.alt-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gray-800);
+}
+
+.alt-reason {
+  font-size: 13px;
+  color: var(--gray-500);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.alt-benefit-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--green-600);
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.alt-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 12px;
+  background: rgba(251, 191, 36, 0.08);
+  border-radius: var(--radius);
+  border-left: 3px solid var(--amber-400);
+}
+
+.alt-tip-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.alt-tip p {
+  font-size: 13px;
+  color: var(--gray-600);
+  line-height: 1.5;
+  margin: 0;
+}

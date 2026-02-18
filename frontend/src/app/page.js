@@ -4,12 +4,15 @@ import { LocaleProvider } from '@/context/LocaleContext';
 import { ProfileProvider } from '@/context/ProfileContext';
 import { useState } from 'react';
 import { useAnalysis } from '@/hooks/useAnalysis';
+import { useMealAnalysis } from '@/hooks/useMealAnalysis';
 import Header from '@/components/layout/Header';
 import BottomNav from '@/components/layout/BottomNav';
 import CameraCapture from '@/components/camera/CameraCapture';
 import HealthScoreDial from '@/components/results/HealthScoreDial';
 import IngredientList from '@/components/results/IngredientList';
 import NutritionTable from '@/components/results/NutritionTable';
+import MealResults from '@/components/results/MealResults';
+import HealthierAlternatives from '@/components/results/HealthierAlternatives';
 import HealthWarnings from '@/components/results/HealthWarnings';
 import VoicePlayer from '@/components/voice/VoicePlayer';
 import ConfidenceBadge from '@/components/ui/ConfidenceBadge';
@@ -17,12 +20,18 @@ import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import ProfileForm from '@/components/profile/ProfileForm';
 import { useLocale } from '@/context/LocaleContext';
 import { useProfile } from '@/context/ProfileContext';
+import {
+  Sparkles, Camera, Brain, Globe, Search, CheckCircle2,
+  AlertCircle, FileText, FlaskConical, ScanLine, BarChart3,
+  User, Languages, UtensilsCrossed, Flame
+} from 'lucide-react';
 
 function ScanPage() {
   const { t, locale } = useLocale();
   const { profile } = useProfile();
-  const { status, results, localizedResults, audioUrl, error, analyze, localize, speak, reset } = useAnalysis();
-  const [view, setView] = useState('scan'); // scan | results | profile
+  const { status, results, localizedResults, error, analyze, localize, speak, reset } = useAnalysis();
+  const { status: mealStatus, mealResults, error: mealError, analyze: analyzeMealPhoto, reset: resetMeal } = useMealAnalysis();
+  const [view, setView] = useState('scan'); // scan | results | profile | meal
 
   const handleCapture = async (base64Image) => {
     const result = await analyze(base64Image, profile);
@@ -47,10 +56,56 @@ function ScanPage() {
     setView('scan');
   };
 
+  const handleMealCapture = async (base64Image) => {
+    const result = await analyzeMealPhoto(base64Image);
+    if (result) {
+      setView('meal-results');
+    }
+  };
+
+  const handleNewMeal = () => {
+    resetMeal();
+    setView('meal');
+  };
+
   const activeReport = localizedResults?.localizedReport || results?.healthReport;
 
   return (
     <div className="app-container">
+      {/* Floating decorative food icons */}
+      <div className="floating-decorations">
+        <span className="float-icon">🍎</span>
+        <span className="float-icon">🥕</span>
+        <span className="float-icon">🥬</span>
+        <span className="float-icon">🍋</span>
+        <span className="float-icon">🫐</span>
+        <span className="float-icon">🥑</span>
+        <span className="float-icon">🍇</span>
+        <span className="float-icon">🥦</span>
+        <span className="float-icon">🍊</span>
+        <span className="float-icon">🌽</span>
+        <span className="float-icon">🥤</span>
+        <span className="float-icon">🥗</span>
+        <span className="float-icon">🍔</span>
+        <span className="float-icon">🍗</span>
+        <span className="float-icon">🍟</span>
+        <span className="float-icon">🥓</span>
+        <span className="float-icon">🍧</span>
+        <span className="float-icon">🍨</span>
+        <span className="float-icon">🧁</span>
+        <span className="float-icon">🥞</span>
+        <span className="float-icon">🧋</span>
+        <span className="float-icon">🥖</span>
+        <span className="float-icon">🍞</span>
+        <span className="float-icon">🥐</span>
+        <span className="float-icon">🥨</span>
+        <span className="float-icon">🥪</span>
+        <span className="float-icon">🥯</span>
+      </div>
+      {/* Blur orbs for depth */}
+      <div className="blur-orb blur-orb-1" />
+      <div className="blur-orb blur-orb-2" />
+
       <Header />
 
       <main className="main-content">
@@ -58,6 +113,10 @@ function ScanPage() {
         {view === 'scan' && (
           <div className="scan-view">
             <div className="scan-hero">
+              <div className="hero-badge">
+                <Sparkles size={14} />
+                AI-Powered Analysis
+              </div>
               <h2 className="page-title">{t('scan.title', 'Scan Food Label')}</h2>
               <p className="page-subtitle">{t('scan.subtitle', 'Take a photo or upload an image of any food label')}</p>
             </div>
@@ -66,27 +125,35 @@ function ScanPage() {
               <div className="analysis-stages">
                 <LoadingSpinner
                   message={
-                    status === 'extracting' ? '📸 Extracting ingredients from label...'
-                      : status === 'reasoning' ? '🧠 Analyzing health impact...'
-                        : status === 'localizing' ? '🌐 Translating to your language...'
-                          : '🔍 Processing image...'
+                    status === 'extracting' ? 'Extracting ingredients from label...'
+                      : status === 'reasoning' ? 'Analyzing health impact...'
+                        : status === 'localizing' ? 'Translating to your language...'
+                          : 'Processing image...'
                   }
                 />
                 <div className="stage-pills">
-                  <span className={`stage-pill ${['extracting', 'reasoning', 'localizing', 'done'].includes(status) ? 'active' : ''}`}>📸 Extract</span>
+                  <span className={`stage-pill ${['extracting', 'reasoning', 'localizing', 'done'].includes(status) ? 'active' : ''}`}>
+                    <Camera size={12} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '4px' }} />Extract
+                  </span>
                   <span className="stage-arrow">→</span>
-                  <span className={`stage-pill ${['reasoning', 'localizing', 'done'].includes(status) ? 'active' : ''}`}>🧠 Analyze</span>
+                  <span className={`stage-pill ${['reasoning', 'localizing', 'done'].includes(status) ? 'active' : ''}`}>
+                    <Brain size={12} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '4px' }} />Analyze
+                  </span>
                   <span className="stage-arrow">→</span>
-                  <span className={`stage-pill ${['localizing', 'done'].includes(status) ? 'active' : ''}`}>🌐 Translate</span>
+                  <span className={`stage-pill ${['localizing', 'done'].includes(status) ? 'active' : ''}`}>
+                    <Globe size={12} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '4px' }} />Translate
+                  </span>
                   <span className="stage-arrow">→</span>
-                  <span className={`stage-pill ${status === 'done' ? 'active' : ''}`}>✅ Done</span>
+                  <span className={`stage-pill ${status === 'done' ? 'active' : ''}`}>
+                    <CheckCircle2 size={12} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '4px' }} />Done
+                  </span>
                 </div>
               </div>
             )}
 
             {error && (
               <div className="error-card">
-                <p>❌ {error}</p>
+                <p><AlertCircle size={16} style={{ display: 'inline', verticalAlign: '-3px', marginRight: '6px' }} />{error}</p>
                 <button onClick={handleNewScan} className="btn-primary">
                   {t('common.retry', 'Try Again')}
                 </button>
@@ -105,25 +172,27 @@ function ScanPage() {
               <ConfidenceBadge confidence={results.confidence} />
             </div>
 
-            {/* 🔹 Lingo.dev — Show detected label language */}
+            {/* Detected label language */}
             {results.detectedLanguage && results.detectedLanguage !== 'unknown' && (
               <div className="detected-lang-pill">
-                🌐 Label detected in: <strong>{results.detectedLanguage.toUpperCase()}</strong>
+                <Globe size={14} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '4px' }} />
+                Label detected in: <strong>{results.detectedLanguage.toUpperCase()}</strong>
               </div>
             )}
 
-            {/* 🔹 Lingo.dev — Localize button if non-English and not yet localized */}
+            {/* Localize button if non-English and not yet localized */}
             {locale !== 'en' && !localizedResults && status !== 'localizing' && (
               <button
                 onClick={() => localize(results.healthReport, locale, profile)}
                 className="btn-secondary btn-full"
                 style={{ marginBottom: '16px' }}
               >
-                🌐 {t('results.translate', `Translate to ${locale.toUpperCase()}`)}
+                <Languages size={16} />
+                {t('results.translate', `Translate to ${locale.toUpperCase()}`)}
               </button>
             )}
             {status === 'localizing' && (
-              <LoadingSpinner message="🌐 Translating report..." />
+              <LoadingSpinner message="Translating report..." />
             )}
 
             <HealthScoreDial
@@ -133,15 +202,16 @@ function ScanPage() {
 
             {activeReport?.summary && (
               <div className="summary-card section-card">
-                <h3 className="section-title">📝 {t('results.summary', 'Summary')}</h3>
+                <h3 className="section-title">
+                  <FileText size={18} />
+                  {t('results.summary', 'Summary')}
+                </h3>
                 <p className="summary-text">{activeReport.summary}</p>
               </div>
             )}
 
             <VoicePlayer
-              audioUrl={audioUrl}
-              onGenerate={handleVoice}
-              isLoading={status === 'translating'}
+              text={activeReport?.summary || ''}
             />
 
             <HealthWarnings warnings={activeReport?.warnings || []} />
@@ -155,7 +225,10 @@ function ScanPage() {
 
             {results.extraction?.additives?.length > 0 && (
               <div className="additives-section section-card">
-                <h3 className="section-title">⚗️ {t('results.additives', 'Additives')}</h3>
+                <h3 className="section-title">
+                  <FlaskConical size={18} />
+                  {t('results.additives', 'Additives')}
+                </h3>
                 <ul className="additive-list">
                   {results.extraction.additives.map((additive, idx) => (
                     <li key={idx} className="additive-item">{additive}</li>
@@ -164,8 +237,61 @@ function ScanPage() {
               </div>
             )}
 
+            <HealthierAlternatives extraction={results.extraction} />
+
             <button onClick={handleNewScan} className="btn-primary btn-large btn-full">
-              📷 Scan Another
+              <ScanLine size={20} />
+              Scan Another
+            </button>
+          </div>
+        )}
+
+        {/* --- MEAL VIEW (capture) --- */}
+        {view === 'meal' && (
+          <div className="scan-view">
+            <div className="scan-hero">
+              <div className="hero-badge">
+                <Flame size={14} />
+                Gemini AI Analysis
+              </div>
+              <h2 className="page-title">{t('meal.title', 'Analyze Your Meal')}</h2>
+              <p className="page-subtitle">{t('meal.subtitle', 'Take a photo of any dish to get instant nutritional breakdown')}</p>
+            </div>
+
+            {mealStatus === 'analyzing' && (
+              <div className="analysis-stages">
+                <LoadingSpinner message={t('meal.analyzing', 'Analyzing your meal with Gemini AI...')} />
+              </div>
+            )}
+
+            {mealError && (
+              <div className="error-card">
+                <p><AlertCircle size={16} style={{ display: 'inline', verticalAlign: '-3px', marginRight: '6px' }} />{mealError}</p>
+                <button onClick={handleNewMeal} className="btn-primary">
+                  {t('common.retry', 'Try Again')}
+                </button>
+              </div>
+            )}
+
+            {mealStatus === 'idle' && <CameraCapture onCapture={handleMealCapture} />}
+          </div>
+        )}
+
+        {/* --- MEAL RESULTS VIEW --- */}
+        {view === 'meal-results' && mealResults && (
+          <div className="results-view">
+            <div className="results-header">
+              <h2 className="page-title">{t('meal.resultsTitle', 'Meal Analysis')}</h2>
+            </div>
+            <MealResults meal={mealResults} />
+
+            <VoicePlayer
+              text={mealResults.mealSummary || mealResults.foodItems?.map(item => `${item.name}: ${Math.round(item.calories)} calories, ${item.protein}g protein, ${item.carbs}g carbs, ${item.fat}g fat`).join('. ') || ''}
+            />
+
+            <button onClick={handleNewMeal} className="btn-primary btn-large btn-full">
+              <UtensilsCrossed size={20} />
+              {t('meal.analyzeAnother', 'Analyze Another Meal')}
             </button>
           </div>
         )}
@@ -184,7 +310,7 @@ function ScanPage() {
           onClick={() => { handleNewScan(); setView('scan'); }}
           className={`nav-tab ${view === 'scan' ? 'active' : ''}`}
         >
-          <span className="nav-icon">📷</span>
+          <span className="nav-icon"><ScanLine size={22} /></span>
           <span className="nav-label">{t('nav.scan', 'Scan')}</span>
         </button>
         <button
@@ -192,14 +318,21 @@ function ScanPage() {
           className={`nav-tab ${view === 'results' ? 'active' : ''} ${!results ? 'disabled' : ''}`}
           disabled={!results}
         >
-          <span className="nav-icon">📊</span>
+          <span className="nav-icon"><BarChart3 size={22} /></span>
           <span className="nav-label">{t('nav.results', 'Results')}</span>
+        </button>
+        <button
+          onClick={() => { if (mealStatus !== 'analyzing') { resetMeal(); setView('meal'); } }}
+          className={`nav-tab ${view === 'meal' || view === 'meal-results' ? 'active' : ''}`}
+        >
+          <span className="nav-icon"><UtensilsCrossed size={22} /></span>
+          <span className="nav-label">{t('nav.meal', 'Meal')}</span>
         </button>
         <button
           onClick={() => setView('profile')}
           className={`nav-tab ${view === 'profile' ? 'active' : ''}`}
         >
-          <span className="nav-icon">👤</span>
+          <span className="nav-icon"><User size={22} /></span>
           <span className="nav-label">{t('nav.profile', 'Profile')}</span>
         </button>
       </nav>
@@ -208,7 +341,7 @@ function ScanPage() {
 }
 
 /**
- * Root page — wrapped in 🔹 Lingo.dev LocaleProvider (CORE layer)
+ * Root page — wrapped in Lingo.dev LocaleProvider (CORE layer)
  */
 export default function Home() {
   return (

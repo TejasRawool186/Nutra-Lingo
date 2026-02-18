@@ -9,6 +9,20 @@ const SUPPORTED_LANGUAGES = [
     { code: 'mr', name: 'Marathi', nativeName: 'मराठी' },
     { code: 'ta', name: 'Tamil', nativeName: 'தமிழ்' },
     { code: 'fr', name: 'French', nativeName: 'Français' },
+    { code: 'de', name: 'German', nativeName: 'Deutsch' },
+    { code: 'pt', name: 'Portuguese', nativeName: 'Português' },
+    { code: 'ja', name: 'Japanese', nativeName: '日本語' },
+    { code: 'ko', name: 'Korean', nativeName: '한국어' },
+    { code: 'zh', name: 'Chinese', nativeName: '中文' },
+    { code: 'ar', name: 'Arabic', nativeName: 'العربية' },
+    { code: 'ru', name: 'Russian', nativeName: 'Русский' },
+    { code: 'bn', name: 'Bengali', nativeName: 'বাংলা' },
+    { code: 'te', name: 'Telugu', nativeName: 'తెలుగు' },
+    { code: 'kn', name: 'Kannada', nativeName: 'ಕನ್ನಡ' },
+    { code: 'gu', name: 'Gujarati', nativeName: 'ગુજરાતી' },
+    { code: 'it', name: 'Italian', nativeName: 'Italiano' },
+    { code: 'tr', name: 'Turkish', nativeName: 'Türkçe' },
+    { code: 'th', name: 'Thai', nativeName: 'ไทย' },
 ];
 
 const LocaleContext = createContext(null);
