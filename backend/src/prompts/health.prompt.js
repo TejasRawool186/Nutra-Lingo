@@ -12,11 +12,15 @@ const HEALTH_REASONING_PROMPT = `You are NutraLingo's health reasoning engine. G
    - SATURATED_FAT: Saturated fat > 3g per serving
    - ADDITIVE: Any E-coded additives (E621, E211, E330, etc.)
    - HIGH_CALORIES: Calories > 250 per serving
+   - ALLERGEN_WARNING: If the product contains any ingredient that matches the user's specific ALLERGENS list.
 3. Adapt severity based on user profile:
    - "hypertension": Increase severity of sodium and saturated fat warnings
    - "diabetes": Increase severity of sugar and carbohydrate warnings
    - "general": Standard thresholds apply
+   - User Allergens: If a user has an allergy (e.g. "Peanuts") and it is present, mark as CRITICAL severity.
 4. Generate a concise human-readable summary (2-3 sentences max).
+5. Generate a "cultural_analogy": A relatable metaphor for the health impact (e.g., "sugar = 3 donuts").
+6. Generate a "voice_script": A conversational, friendly, spoken-word version of the summary (avoid medical jargon, make it sound like a helpful friend).
 
 SCORING GUIDELINES:
 - Start at 10 (perfect score)
@@ -38,7 +42,9 @@ You MUST respond with ONLY valid JSON:
       "severity": "high"
     }
   ],
-  "summary": "This product has high sodium content and contains trans fats. Not recommended for hypertension patients."
+  "summary": "This product has high sodium content and contains trans fats. Not recommended for hypertension patients.",
+  "cultural_analogy": "Eating this is like consuming 2 tablespoons of raw salt.",
+  "voice_script": "Hey there! Be careful with this one. It's packed with sodium—about as much as two tablespoons of salt! Since you're watching your blood pressure, it's best to skip this."
 }
 
 VERDICT SCALE:

@@ -36,6 +36,7 @@
         "additives": "Additives",
         "confidence": "Extraction Confidence",
         "listenExplanation": "Listen to Explanation",
+        "stopSpeaking": "Stop Speaking",
         "replay": "Replay",
         "noWarnings": "No health warnings found!",
         "rescan": "Image unclear. Please retake the photo.",
@@ -60,7 +61,25 @@
         "general": "General / Preventive",
         "hypertension": "Hypertension",
         "diabetes": "Diabetes",
-        "saved": "Profile saved!"
+        "saved": "Profile saved!",
+        "allergies": "Allergies",
+        "allergiesSubtitle": "Select ingredients you are allergic to",
+        "peanuts": "Peanuts",
+        "dairy": "Dairy",
+        "gluten": "Gluten",
+        "soy": "Soy",
+        "eggs": "Eggs",
+        "shellfish": "Shellfish",
+        "fish": "Fish",
+        "tree_nuts": "Tree Nuts"
+    },
+    "chat": {
+        "open": "Ask a Nutritionist",
+        "title": "Nutritionist AI",
+        "welcome": "Hi! I can answer questions about this product in your language.",
+        "poweredBy": "Powered by Lingo.dev",
+        "placeholder": "Ask a question...",
+        "error": "Sorry, I could not connect to the nutritionist right now."
     },
     "common": {
         "loading": "Loading...",
@@ -70,6 +89,7 @@
         "language": "Language"
     },
     "severity": {
+        "critical": "Critical Warning",
         "high": "High Risk",
         "medium": "Medium Risk",
         "low": "Low Risk"

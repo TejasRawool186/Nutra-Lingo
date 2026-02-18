@@ -20,17 +20,18 @@ import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import ProfileForm from '@/components/profile/ProfileForm';
 import { useLocale } from '@/context/LocaleContext';
 import { useProfile } from '@/context/ProfileContext';
+import ChatAssistant from '@/components/chat/ChatAssistant';
 import {
   Sparkles, Camera, Brain, Globe, Search, CheckCircle2,
   AlertCircle, FileText, FlaskConical, ScanLine, BarChart3,
-  User, Languages, UtensilsCrossed, Flame
+  User, Languages, UtensilsCrossed, Flame, Lightbulb
 } from 'lucide-react';
 
 function ScanPage() {
   const { t, locale } = useLocale();
   const { profile } = useProfile();
   const { status, results, localizedResults, error, analyze, localize, speak, reset } = useAnalysis();
-  const { status: mealStatus, mealResults, error: mealError, analyze: analyzeMealPhoto, reset: resetMeal } = useMealAnalysis();
+  const { status: mealStatus, mealResults, localizedMealResults, error: mealError, analyze: analyzeMealPhoto, localize: localizeMeal, reset: resetMeal } = useMealAnalysis();
   const [view, setView] = useState('scan'); // scan | results | profile | meal
 
   const handleCapture = async (base64Image) => {
@@ -60,6 +61,10 @@ function ScanPage() {
     const result = await analyzeMealPhoto(base64Image);
     if (result) {
       setView('meal-results');
+      // Auto-localize if non-English
+      if (locale !== 'en') {
+        await localizeMeal(result, locale);
+      }
     }
   };
 
@@ -207,11 +212,23 @@ function ScanPage() {
                   {t('results.summary', 'Summary')}
                 </h3>
                 <p className="summary-text">{activeReport.summary}</p>
+
+                {activeReport.cultural_analogy && (
+                  <div className="cultural-analogy mt-4 p-3 bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-400 rounded-r-md">
+                    <div className="flex items-center gap-2 mb-1 text-amber-700 dark:text-amber-400 font-semibold text-sm">
+                      <Lightbulb size={16} />
+                      <span>{t('results.analogy', 'Perspective')}</span>
+                    </div>
+                    <p className="text-sm text-slate-700 dark:text-slate-300 italic">
+                      "{activeReport.cultural_analogy}"
+                    </p>
+                  </div>
+                )}
               </div>
             )}
 
             <VoicePlayer
-              text={activeReport?.summary || ''}
+              text={activeReport?.voice_script || activeReport?.summary || ''}
             />
 
             <HealthWarnings warnings={activeReport?.warnings || []} />
@@ -283,10 +300,26 @@ function ScanPage() {
             <div className="results-header">
               <h2 className="page-title">{t('meal.resultsTitle', 'Meal Analysis')}</h2>
             </div>
-            <MealResults meal={mealResults} />
+
+            {/* Localize button for Meal */}
+            {locale !== 'en' && !localizedMealResults && mealStatus !== 'localizing' && (
+              <button
+                onClick={() => localizeMeal(mealResults, locale)}
+                className="btn-secondary btn-full"
+                style={{ marginBottom: '16px' }}
+              >
+                <Languages size={16} />
+                {t('results.translate', `Translate to ${locale.toUpperCase()}`)}
+              </button>
+            )}
+            {mealStatus === 'localizing' && (
+              <LoadingSpinner message="Translating meal info..." />
+            )}
+
+            <MealResults meal={localizedMealResults || mealResults} />
 
             <VoicePlayer
-              text={mealResults.mealSummary || mealResults.foodItems?.map(item => `${item.name}: ${Math.round(item.calories)} calories, ${item.protein}g protein, ${item.carbs}g carbs, ${item.fat}g fat`).join('. ') || ''}
+              text={(localizedMealResults || mealResults).mealSummary || (localizedMealResults || mealResults).foodItems?.map(item => `${item.name}: ${Math.round(item.calories)} calories`).join('. ') || ''}
             />
 
             <button onClick={handleNewMeal} className="btn-primary btn-large btn-full">
@@ -301,6 +334,11 @@ function ScanPage() {
           <div className="profile-view">
             <ProfileForm />
           </div>
+        )}
+
+        {/* Chat Assistant - Always available if we have context */}
+        {(results || mealResults) && (
+          <ChatAssistant contextData={results?.healthReport || mealResults} />
         )}
       </main>
 

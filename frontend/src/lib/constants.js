@@ -42,9 +42,31 @@ export const HEALTH_CONDITIONS = [
     { id: 'diabetes', label: 'Diabetes', icon: '🩸' },
 ];
 
+/** Common allergens for user profile */
+export const ALLERGENS = [
+    { id: 'peanuts', label: 'Peanuts', icon: '🥜' },
+    { id: 'dairy', label: 'Dairy', icon: '🥛' },
+    { id: 'gluten', label: 'Gluten', icon: '🍞' },
+    { id: 'soy', label: 'Soy', icon: '🫛' },
+    { id: 'eggs', label: 'Eggs', icon: '🥚' },
+    { id: 'shellfish', label: 'Shellfish', icon: '🦐' },
+    { id: 'fish', label: 'Fish', icon: '🐟' },
+    { id: 'tree_nuts', label: 'Tree Nuts', icon: '🌰' },
+];
+
 /** Warning severity colors */
 export const SEVERITY_COLORS = {
+    critical: { bg: '#FEF2F2', text: '#7F1D1D', border: '#FCA5A5' },
     high: { bg: '#FEE2E2', text: '#991B1B', border: '#FECACA' },
     medium: { bg: '#FEF3C7', text: '#92400E', border: '#FDE68A' },
     low: { bg: '#D1FAE5', text: '#065F46', border: '#A7F3D0' },
 };
+
+/** Sample questions for the AI nutritionist */
+export const SAMPLE_QUESTIONS = [
+    "Is this safe for diabetics?",
+    "Does this contain any hidden sugar?",
+    "Is this suitable for a keto diet?",
+    "What are healthier alternatives to this?",
+    "Is this good for a post-workout meal?",
+];

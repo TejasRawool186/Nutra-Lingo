@@ -85,3 +85,22 @@ export async function getAlternatives(extraction) {
 
 // TTS is now handled by browser-native SpeechSynthesis API
 // No API call needed — see VoicePlayer component
+
+/**
+ * POST /api/chat — Send user question for nutritionist AI.
+ * 🔹 Triggers Lingo.dev (Translate) + Groq (Reason) pipeline.
+ */
+export async function sendChat(question, context) {
+    const res = await fetch(`${API_BASE}/api/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question, context })
+    });
+
+    if (!res.ok) {
+        const error = await res.json().catch(() => ({ message: 'Chat failed' }));
+        throw new Error(error.message || `Chat failed (${res.status})`);
+    }
+
+    return res.json();
+}

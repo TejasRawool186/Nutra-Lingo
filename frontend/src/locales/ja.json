@@ -36,6 +36,7 @@
         "additives": "添加物",
         "confidence": "抽出信頼度",
         "listenExplanation": "説明を聴く",
+        "stopSpeaking": "読み上げ停止",
         "replay": "リプレイ",
         "noWarnings": "健康警告はありません！",
         "rescan": "画像が不鮮明です。もう一度撮影してください。",
@@ -47,7 +48,25 @@
         "general": "一般 / 予防",
         "hypertension": "高血圧",
         "diabetes": "糖尿病",
-        "saved": "プロフィールが保存されました！"
+        "saved": "プロフィールが保存されました！",
+        "allergies": "アレルギー",
+        "allergiesSubtitle": "アレルギーのある成分を選択してください",
+        "peanuts": "ピーナッツ",
+        "dairy": "乳製品",
+        "gluten": "グルテン",
+        "soy": "大豆",
+        "eggs": "卵",
+        "shellfish": "甲殻類",
+        "fish": "魚",
+        "tree_nuts": "木の実"
+    },
+    "chat": {
+        "open": "栄養士に相談",
+        "title": "AI管理栄養士",
+        "welcome": "こんにちは！この商品について、あなたの言語で質問にお答えします。",
+        "poweredBy": "Powered by Lingo.dev",
+        "placeholder": "質問を入力してください...",
+        "error": "申し訳ありませんが、現在栄養士に接続できません。"
     },
     "common": {
         "loading": "読み込み中...",
@@ -57,6 +76,7 @@
         "language": "言語"
     },
     "severity": {
+        "critical": "重大な警告",
         "high": "高リスク",
         "medium": "中リスク",
         "low": "低リスク"

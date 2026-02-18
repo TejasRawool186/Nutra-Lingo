@@ -17,8 +17,9 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 async function analyzeHealth(extraction, profile = {}) {
     const startTime = Date.now();
     const conditions = profile.conditions || ['general'];
+    const allergens = profile.allergens || [];
 
-    logger.info('Starting Groq health analysis...', { conditions });
+    logger.info('Starting Groq health analysis...', { conditions, allergens });
 
     const systemPrompt = HEALTH_REASONING_PROMPT;
     const userPrompt = `Analyze this food label extraction for health impact:
@@ -26,6 +27,7 @@ async function analyzeHealth(extraction, profile = {}) {
 ${JSON.stringify(extraction, null, 2)}
 
 User health conditions: ${conditions.join(', ')}
+User allergens: ${allergens.join(', ')}
 
 Return a JSON health report with: score (1-10), verdict, warnings array, and summary.`;
 

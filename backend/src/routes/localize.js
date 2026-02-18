@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const logger = require('../utils/logger');
-const { localizeReport } = require('../services/lingoService');
+const { localizeReport, localizeMealReport } = require('../services/lingoService');
 
 /**
  * POST /api/localize
@@ -15,14 +15,7 @@ const { localizeReport } = require('../services/lingoService');
  */
 router.post('/', async (req, res, next) => {
     try {
-        const { healthReport, targetLanguage, profile = {} } = req.body;
-
-        if (!healthReport) {
-            return res.status(400).json({
-                error: 'MISSING_REPORT',
-                message: 'Health report is required for localization.'
-            });
-        }
+        const { healthReport, mealReport, targetLanguage, profile = {}, type = 'health' } = req.body;
 
         if (!targetLanguage) {
             return res.status(400).json({
@@ -31,11 +24,25 @@ router.post('/', async (req, res, next) => {
             });
         }
 
-        const result = await localizeReport(healthReport, targetLanguage, profile);
+        let result;
+
+        if (type === 'meal') {
+            if (!mealReport) {
+                return res.status(400).json({ error: 'MISSING_MEAL_REPORT', message: 'Meal report is required.' });
+            }
+            result = await localizeMealReport(mealReport, targetLanguage);
+        } else {
+            // Default to health report
+            if (!healthReport) {
+                return res.status(400).json({ error: 'MISSING_REPORT', message: 'Health report is required.' });
+            }
+            result = await localizeReport(healthReport, targetLanguage, profile);
+        }
 
         logger.info('Localization served', {
             language: result.language,
-            languageName: result.languageName
+            languageName: result.languageName,
+            type
         });
 
         res.json(result);

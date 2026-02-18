@@ -29,7 +29,8 @@ You MUST respond with ONLY valid JSON in this exact schema:
     "totalSugars": "8g",
     "protein": "2g"
   },
-  "additives": ["E621 (Monosodium glutamate)", "E330 (Citric acid)"]
+  "additives": ["E621 (Monosodium glutamate)", "E330 (Citric acid)"],
+  "allergens": ["Peanuts", "Milk", "Soy"]
 }
 
 If a field cannot be determined, set it to null. Do NOT add any text outside the JSON.`;
@@ -43,11 +44,12 @@ const VISION_EXTRACTION_SYSTEM_PROMPT = `You are NutraLingo's food label analysi
 2. Identify and extract the ingredient list.
 3. Identify and extract the nutrition facts table.
 4. Identify any food additives (E-codes).
-5. Return ONLY a valid JSON object — no explanations, no markdown.
+5. Identify potential allergens (e.g. peanuts, milk, soy, etc.) based on ingredients.
+6. Return ONLY a valid JSON object — no explanations, no markdown.
 
 Handle foreign language labels by translating ingredient names to English while preserving original scientific/chemical names.`;
 
 module.exports = {
-    EXTRACTION_PROMPT,
-    VISION_EXTRACTION_SYSTEM_PROMPT
+  EXTRACTION_PROMPT,
+  VISION_EXTRACTION_SYSTEM_PROMPT
 };

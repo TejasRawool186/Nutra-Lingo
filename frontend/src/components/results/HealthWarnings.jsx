@@ -28,6 +28,7 @@ export default function HealthWarnings({ warnings = [] }) {
 
     const SeverityIcon = ({ severity }) => {
         switch (severity) {
+            case 'critical': return <ShieldAlert size={16} color="var(--red-700)" />;
             case 'high': return <AlertCircle size={16} color="var(--red-500)" />;
             case 'medium': return <AlertTriangle size={16} color="var(--orange-500)" />;
             case 'low': return <Info size={16} color="var(--yellow-600)" />;

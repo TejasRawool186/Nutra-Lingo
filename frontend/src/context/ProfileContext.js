@@ -50,8 +50,18 @@ export function ProfileProvider({ children }) {
         updateProfile({ conditions });
     };
 
+    const toggleAllergen = (allergen) => {
+        let allergens = [...(profile.allergens || [])];
+        if (allergens.includes(allergen)) {
+            allergens = allergens.filter(a => a !== allergen);
+        } else {
+            allergens.push(allergen);
+        }
+        updateProfile({ allergens });
+    };
+
     return (
-        <ProfileContext.Provider value={{ profile, updateProfile, toggleCondition }}>
+        <ProfileContext.Provider value={{ profile, updateProfile, toggleCondition, toggleAllergen }}>
             {children}
         </ProfileContext.Provider>
     );

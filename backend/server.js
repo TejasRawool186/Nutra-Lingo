@@ -10,6 +10,7 @@ const localizeRoute = require('./src/routes/localize');
 const ttsRoute = require('./src/routes/tts');
 const mealRoute = require('./src/routes/meal');
 const alternativesRoute = require('./src/routes/alternatives');
+const chatRoute = require('./src/routes/chat');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -30,6 +31,7 @@ app.use('/api/localize', localizeRoute);
 app.use('/api/tts', ttsRoute);
 app.use('/api/meal', mealRoute);
 app.use('/api/alternatives', alternativesRoute);
+app.use('/api/chat', chatRoute);
 
 // --- Health Check ---
 app.get('/api/health', (req, res) => {

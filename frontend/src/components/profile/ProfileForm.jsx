@@ -2,7 +2,7 @@
 
 import { useProfile } from '@/context/ProfileContext';
 import { useLocale } from '@/context/LocaleContext';
-import { HEALTH_CONDITIONS } from '@/lib/constants';
+import { HEALTH_CONDITIONS, ALLERGENS } from '@/lib/constants';
 import { Shield, HeartPulse, Droplets } from 'lucide-react';
 
 const CONDITION_ICONS = {
@@ -15,7 +15,7 @@ const CONDITION_ICONS = {
  * User health profile form with Lucide icons.
  */
 export default function ProfileForm() {
-    const { profile, toggleCondition } = useProfile();
+    const { profile, toggleCondition, toggleAllergen } = useProfile();
     const { t } = useLocale();
 
     return (
@@ -42,6 +42,33 @@ export default function ProfileForm() {
                             </span>
                             <span className="condition-label">
                                 {t(`profile.${condition.id}`, condition.label)}
+                            </span>
+                        </button>
+                    );
+                })}
+            </div>
+
+            <h3 className="section-title mt-6">
+                <Shield size={18} />
+                {t('profile.allergies', 'Allergies')}
+            </h3>
+            <p className="section-subtitle">
+                {t('profile.allergiesSubtitle', 'Select ingredients you are allergic to')}
+            </p>
+            <div className="condition-options">
+                {ALLERGENS.map(allergen => {
+                    const isSelected = (profile.allergens || []).includes(allergen.id);
+                    return (
+                        <button
+                            key={allergen.id}
+                            onClick={() => toggleAllergen(allergen.id)}
+                            className={`condition-btn ${isSelected ? 'selected' : ''}`}
+                        >
+                            <span className="condition-icon">
+                                {allergen.icon}
+                            </span>
+                            <span className="condition-label">
+                                {t(`profile.${allergen.id}`, allergen.label)}
                             </span>
                         </button>
                     );

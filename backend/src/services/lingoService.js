@@ -52,6 +52,8 @@ async function localizeReport(healthReport, targetLanguage, profile = {}) {
         const contentToLocalize = {
             verdict: healthReport.verdict,
             summary: healthReport.summary,
+            cultural_analogy: healthReport.cultural_analogy,
+            voice_script: healthReport.voice_script,
         };
 
         // Add warning texts
@@ -63,8 +65,7 @@ async function localizeReport(healthReport, targetLanguage, profile = {}) {
             });
         }
 
-        // 🔹 Lingo.dev SDK — localizeObject preserves structure and keys,
-        //    translates only the values with medical/health context awareness
+        // 🔹 Lingo.dev SDK — localizeObject preserves structure and keys
         const translated = await lingoDotDev.localizeObject(contentToLocalize, {
             sourceLocale: 'en',
             targetLocale: targetLanguage,
@@ -75,6 +76,8 @@ async function localizeReport(healthReport, targetLanguage, profile = {}) {
             score: healthReport.score,
             verdict: translated.verdict || healthReport.verdict,
             summary: translated.summary || healthReport.summary,
+            cultural_analogy: translated.cultural_analogy || healthReport.cultural_analogy,
+            voice_script: translated.voice_script || healthReport.voice_script,
             warnings: healthReport.warnings.map((w, i) => ({
                 type: w.type,
                 ingredient: translated.warnings?.[`w${i}_ingredient`] || w.ingredient,
@@ -100,7 +103,6 @@ async function localizeReport(healthReport, targetLanguage, profile = {}) {
             targetLanguage,
         });
 
-        // Fallback: return English report if localization fails
         return {
             localizedReport: healthReport,
             language: targetLanguage,
@@ -113,10 +115,6 @@ async function localizeReport(healthReport, targetLanguage, profile = {}) {
 
 /**
  * 🔹 Lingo.dev SDK — Detect the language of input text.
- * Useful for identifying the language of a food label.
- *
- * @param {string} text - Text to recognize
- * @returns {Promise<string>} ISO language code
  */
 async function detectLanguage(text) {
     try {
@@ -129,4 +127,85 @@ async function detectLanguage(text) {
     }
 }
 
-module.exports = { localizeReport, detectLanguage };
+/**
+ * 🔹 Lingo.dev SDK — Translate a single text string.
+ * Useful for chat and dynamic UI elements.
+ */
+async function translateText(text, targetLanguage, sourceLanguage = 'auto') {
+    if (!text) return '';
+    try {
+        // localizedObject wrapper for single string to use same reliable endpoint
+        const wrapped = { text };
+        const translated = await lingoDotDev.localizeObject(wrapped, {
+            sourceLocale: sourceLanguage === 'auto' ? undefined : sourceLanguage,
+            targetLocale: targetLanguage,
+        });
+        return translated.text || text;
+    } catch (error) {
+        logger.error('Lingo.dev text translation failed', { error: error.message });
+        return translated.text || text;
+    } catch (error) {
+        logger.error('Lingo.dev text translation failed', { error: error.message });
+        return text; // Fallback to original
+    }
+}
+
+/**
+ * 🔹 Lingo.dev Localization for Meal Analysis.
+ * Localizes meal summary and food item names.
+ */
+async function localizeMealReport(mealReport, targetLanguage) {
+    logger.info('Starting Lingo.dev meal localization...', { targetLanguage });
+    const startTime = Date.now();
+
+    if (targetLanguage === 'en') {
+        return { localizedReport: mealReport, language: 'en' };
+    }
+
+    try {
+        // Prepare content for Lingo.dev
+        // We map food items to keys like "item_0_name" to preserve structure
+        const contentToLocalize = {
+            mealSummary: mealReport.mealSummary,
+        };
+
+        mealReport.foodItems.forEach((item, index) => {
+            contentToLocalize[`item_${index}_name`] = item.name;
+        });
+
+        const translated = await lingoDotDev.localizeObject(contentToLocalize, {
+            sourceLocale: 'en',
+            targetLocale: targetLanguage,
+        });
+
+        // Reconstruct meal report
+        const localizedReport = {
+            ...mealReport,
+            mealSummary: translated.mealSummary || mealReport.mealSummary,
+            foodItems: mealReport.foodItems.map((item, index) => ({
+                ...item,
+                name: translated[`item_${index}_name`] || item.name,
+            })),
+        };
+
+        const elapsed = Date.now() - startTime;
+        logger.info('Meal localization complete', { elapsed: `${elapsed}ms` });
+
+        return {
+            localizedReport,
+            language: targetLanguage,
+            languageName: LANGUAGE_NAMES[targetLanguage] || targetLanguage,
+        };
+
+    } catch (error) {
+        logger.error('Meal localization failed', { error: error.message });
+        return {
+            localizedReport: mealReport,
+            language: targetLanguage,
+            fallback: true,
+            error: 'Translation failed',
+        };
+    }
+}
+
+module.exports = { localizeReport, detectLanguage, translateText, localizeMealReport };
