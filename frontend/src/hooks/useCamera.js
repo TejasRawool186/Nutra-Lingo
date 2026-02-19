@@ -10,35 +10,42 @@ export function useCamera() {
     const [stream, setStream] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
     const [error, setError] = useState(null);
-    const [hasCamera, setHasCamera] = useState(false); // Start false to match SSR
+    const [hasCamera, setHasCamera] = useState(false);
+    const [supportsStream, setSupportsStream] = useState(false);
     const videoRef = useRef(null);
 
-    // Detect camera support client-side only (avoids hydration mismatch)
     useEffect(() => {
-        setHasCamera(!!navigator?.mediaDevices);
+        setHasCamera(true); // Always show camera button
+        setSupportsStream(!!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia));
     }, []);
 
     const openCamera = useCallback(async () => {
         try {
             setError(null);
+
+            // Check for secure context requirement
+            if (!navigator.mediaDevices?.getUserMedia) {
+                throw new Error('Camera requires HTTPS or localhost. If testing on mobile via IP, please check Chrome flags to enable insecure origins.');
+            }
+
             const mediaStream = await navigator.mediaDevices.getUserMedia({
-                video: {
-                    facingMode: 'environment', // Back camera for food labels
-                    width: { ideal: 1920 },
-                    height: { ideal: 1080 }
-                }
+                video: true
             });
             setStream(mediaStream);
             setIsOpen(true);
-
-            if (videoRef.current) {
-                videoRef.current.srcObject = mediaStream;
-            }
         } catch (err) {
-            setError('Camera access denied. Please allow camera permissions or use image upload.');
+            console.error('Camera Error:', err);
+            setError(err.message || 'Camera access denied. Please allow permissions.');
             setIsOpen(false);
         }
     }, []);
+
+    // Ensure video stream is attached when stream becomes available
+    useEffect(() => {
+        if (stream && videoRef.current) {
+            videoRef.current.srcObject = stream;
+        }
+    }, [stream, isOpen]);
 
     const capture = useCallback(() => {
         if (!videoRef.current) return null;
@@ -70,6 +77,7 @@ export function useCamera() {
         openCamera,
         capture,
         closeCamera,
-        hasCamera
+        hasCamera,
+        supportsStream
     };
 }

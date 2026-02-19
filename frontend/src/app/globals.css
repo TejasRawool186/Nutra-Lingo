@@ -645,6 +645,7 @@ body {
 .camera-viewfinder {
   position: relative;
   width: 100%;
+  min-height: 480px;
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: #000;
@@ -653,6 +654,8 @@ body {
 
 .camera-video {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
 }
 

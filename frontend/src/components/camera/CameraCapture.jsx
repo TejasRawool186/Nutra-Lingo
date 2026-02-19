@@ -12,8 +12,9 @@ import { Camera, Upload, RefreshCw, X } from 'lucide-react';
  * @param {{ onCapture: (base64: string) => void }} props
  */
 export default function CameraCapture({ onCapture }) {
-    const { videoRef, isOpen, error, openCamera, capture, closeCamera, hasCamera } = useCamera();
+    const { videoRef, isOpen, error, openCamera, capture, closeCamera, hasCamera, supportsStream } = useCamera();
     const fileInputRef = useRef(null);
+    const nativeInputRef = useRef(null);
     const { t } = useLocale();
     const [preview, setPreview] = useState(null);
 
@@ -33,6 +34,8 @@ export default function CameraCapture({ onCapture }) {
     const handleFileUpload = async (e) => {
         const file = e.target.files?.[0];
         if (!file) return;
+
+        e.target.value = ''; // Allow re-selecting same file
 
         const validation = validateImageFile(file);
         if (!validation.valid) {
@@ -95,7 +98,10 @@ export default function CameraCapture({ onCapture }) {
             {!isOpen && !preview && (
                 <div className="capture-buttons">
                     {hasCamera && (
-                        <button onClick={openCamera} className="btn-primary btn-large">
+                        <button
+                            onClick={() => supportsStream ? openCamera() : nativeInputRef.current?.click()}
+                            className="btn-primary btn-large"
+                        >
                             <Camera size={20} />
                             {t('scan.cameraButton', 'Open Camera')}
                         </button>
@@ -111,6 +117,14 @@ export default function CameraCapture({ onCapture }) {
                         ref={fileInputRef}
                         type="file"
                         accept="image/jpeg,image/png,image/webp"
+                        onChange={handleFileUpload}
+                        className="hidden"
+                    />
+                    <input
+                        ref={nativeInputRef}
+                        type="file"
+                        accept="image/*"
+                        capture="environment"
                         onChange={handleFileUpload}
                         className="hidden"
                     />

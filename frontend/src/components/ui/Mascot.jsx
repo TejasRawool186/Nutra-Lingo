@@ -55,24 +55,24 @@ export default function Mascot() {
     if (!isMounted) return null; // Avoid hydration mismatch
 
     return (
-        <div className="mascot-container fixed bottom-32 right-8 z-40 flex flex-col items-end pointer-events-none">
+        <div className="mascot-container fixed bottom-24 right-2 sm:bottom-32 sm:right-8 z-40 flex flex-col items-end pointer-events-none">
             {/* Speech Bubble */}
             <div
-                className={`mascot-bubble relative mr-12 bg-emerald-600 dark:bg-emerald-700 p-6 rounded-3xl rounded-br-sm shadow-2xl mb-4 w-auto max-w-[320px] transition-all duration-500 transform ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'}`}
+                className={`mascot-bubble relative mr-2 sm:mr-12 bg-emerald-600 dark:bg-emerald-700 p-3 sm:p-6 rounded-3xl rounded-br-sm shadow-2xl mb-2 sm:mb-4 w-auto max-w-[160px] sm:max-w-[320px] transition-all duration-500 transform ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'}`}
             >
                 {/* Tail */}
                 <div className="absolute -bottom-3 right-8 w-8 h-8 bg-emerald-600 dark:bg-emerald-700 transform rotate-45 rounded-sm"></div>
 
-                <div className="flex gap-4 relative z-10 items-start">
-                    <Quote size={24} className="text-emerald-200 shrink-0 transform rotate-180 mt-1" />
-                    <p className="text-lg font-medium text-white leading-relaxed">
+                <div className="flex gap-2 sm:gap-4 relative z-10 items-start">
+                    <Quote className="w-3 h-3 sm:w-6 sm:h-6 text-emerald-200 shrink-0 transform rotate-180 mt-0.5 sm:mt-1" />
+                    <p className="text-xs sm:text-lg font-medium text-white leading-relaxed">
                         {currentTip}
                     </p>
                 </div>
             </div>
 
             {/* Mascot Image */}
-            <div className="mascot-image relative w-56 h-56 sm:w-72 sm:h-72 filter drop-shadow-2xl transition-transform hover:scale-105 pointer-events-auto cursor-pointer" onClick={() => setIsVisible(true)}>
+            <div className="mascot-image relative w-28 h-28 sm:w-56 sm:h-56 md:w-72 md:h-72 filter drop-shadow-2xl transition-transform hover:scale-105 pointer-events-auto cursor-pointer" onClick={() => setIsVisible(true)}>
                 {/* 
                     Using a simple bounce animation 
                     If no image exists, this will show alt text, but we'll try to use a placeholder or the provided one if available.

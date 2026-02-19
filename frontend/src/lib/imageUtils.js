@@ -48,15 +48,15 @@ export async function compressImage(file, maxSize = 2048, quality = 0.8) {
  * Validate image file before processing.
  */
 export function validateImageFile(file) {
-    const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
-    const maxSize = 10 * 1024 * 1024; // 10MB
+    const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
+    const maxSize = 50 * 1024 * 1024; // 50MB
 
     if (!validTypes.includes(file.type)) {
         return { valid: false, error: 'Please upload a JPEG, PNG, or WebP image.' };
     }
 
     if (file.size > maxSize) {
-        return { valid: false, error: 'Image is too large. Maximum size is 10MB.' };
+        return { valid: false, error: 'Image is too large. Maximum size is 50MB.' };
     }
 
     return { valid: true };
