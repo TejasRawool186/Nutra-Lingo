@@ -15,7 +15,7 @@ const { localizeReport, localizeMealReport } = require('../services/lingoService
  */
 router.post('/', async (req, res, next) => {
     try {
-        const { healthReport, mealReport, targetLanguage, profile = {}, type = 'health' } = req.body;
+        const { healthReport, mealReport, targetLanguage, profile = {}, type = 'health', ingredients, additives } = req.body;
 
         if (!targetLanguage) {
             return res.status(400).json({
@@ -36,7 +36,15 @@ router.post('/', async (req, res, next) => {
             if (!healthReport) {
                 return res.status(400).json({ error: 'MISSING_REPORT', message: 'Health report is required.' });
             }
-            result = await localizeReport(healthReport, targetLanguage, profile);
+
+            // Merge ingredients/additives if provided separately (e.g. from extraction)
+            const reportToLocalize = {
+                ...healthReport,
+                ingredients: ingredients || healthReport.ingredients,
+                additives: additives || healthReport.additives
+            };
+
+            result = await localizeReport(reportToLocalize, targetLanguage, profile);
         }
 
         logger.info('Localization served', {

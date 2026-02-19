@@ -2,7 +2,7 @@
 
 import { LocaleProvider } from '@/context/LocaleContext';
 import { ProfileProvider } from '@/context/ProfileContext';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAnalysis } from '@/hooks/useAnalysis';
 import { useMealAnalysis } from '@/hooks/useMealAnalysis';
 import Header from '@/components/layout/Header';
@@ -34,14 +34,16 @@ function ScanPage() {
   const { status, results, localizedResults, error, analyze, localize, speak, reset } = useAnalysis();
   const { status: mealStatus, mealResults, localizedMealResults, error: mealError, analyze: analyzeMealPhoto, localize: localizeMeal, reset: resetMeal } = useMealAnalysis();
   const [view, setView] = useState('scan'); // scan | results | profile | meal
+  const [currentImage, setCurrentImage] = useState(null);
 
   const handleCapture = async (base64Image) => {
+    setCurrentImage(base64Image);
     const result = await analyze(base64Image, profile);
     if (result) {
       setView('results');
       // Auto-localize if non-English
       if (locale !== 'en') {
-        await localize(result.healthReport, locale, profile);
+        await localize(result.healthReport, locale, profile, result.extraction?.ingredients, result.extraction?.additives);
       }
     }
   };
@@ -55,10 +57,12 @@ function ScanPage() {
 
   const handleNewScan = () => {
     reset();
+    setCurrentImage(null);
     setView('scan');
   };
 
   const handleMealCapture = async (base64Image) => {
+    setCurrentImage(base64Image);
     const result = await analyzeMealPhoto(base64Image);
     if (result) {
       setView('meal-results');
@@ -71,8 +75,18 @@ function ScanPage() {
 
   const handleNewMeal = () => {
     resetMeal();
+    setCurrentImage(null);
     setView('meal');
   };
+
+  // Re-localize when global locale changes
+  useEffect(() => {
+    if (view === 'results' && results && locale !== 'en') {
+      localize(results.healthReport, locale, profile, results.extraction?.ingredients, results.extraction?.additives);
+    } else if (view === 'meal-results' && mealResults && locale !== 'en') {
+      localizeMeal(mealResults, locale);
+    }
+  }, [locale]);
 
   const activeReport = localizedResults?.localizedReport || results?.healthReport;
 
@@ -178,25 +192,26 @@ function ScanPage() {
               <ConfidenceBadge confidence={results.confidence} />
             </div>
 
+            {/* Display Captured Image */}
+            {currentImage && (
+              <div className="captured-image-container mb-6 flex justify-center">
+                <img
+                  src={currentImage}
+                  alt="Scanned Label"
+                  className="rounded-lg shadow-md max-h-48 object-cover border-2 border-slate-200 dark:border-slate-700"
+                />
+              </div>
+            )}
+
             {/* Detected label language */}
             {results.detectedLanguage && results.detectedLanguage !== 'unknown' && (
               <div className="detected-lang-pill">
                 <Globe size={14} style={{ display: 'inline', verticalAlign: '-2px', marginRight: '4px' }} />
-                Label detected in: <strong>{results.detectedLanguage.toUpperCase()}</strong>
+                {t('results.labelDetected', 'Label detected in')}: <strong>{results.detectedLanguage.toUpperCase()}</strong>
               </div>
             )}
 
-            {/* Localize button if non-English and not yet localized */}
-            {locale !== 'en' && !localizedResults && status !== 'localizing' && (
-              <button
-                onClick={() => localize(results.healthReport, locale, profile)}
-                className="btn-secondary btn-full"
-                style={{ marginBottom: '16px' }}
-              >
-                <Languages size={16} />
-                {t('results.translate', `Translate to ${locale.toUpperCase()}`)}
-              </button>
-            )}
+            {/* Language Switcher Removed - Using Global Header */}
             {status === 'localizing' && (
               <LoadingSpinner message="Translating report..." />
             )}
@@ -235,20 +250,20 @@ function ScanPage() {
             <HealthWarnings warnings={activeReport?.warnings || []} />
 
             <IngredientList
-              ingredients={results.extraction?.ingredients || []}
+              ingredients={activeReport?.ingredients || results.extraction?.ingredients || []}
               warnings={activeReport?.warnings || []}
             />
 
             <NutritionTable nutrition={results.extraction?.nutrition || {}} />
 
-            {results.extraction?.additives?.length > 0 && (
+            {(activeReport?.additives || results.extraction?.additives)?.length > 0 && (
               <div className="additives-section section-card">
                 <h3 className="section-title">
                   <FlaskConical size={18} />
                   {t('results.additives', 'Additives')}
                 </h3>
                 <ul className="additive-list">
-                  {results.extraction.additives.map((additive, idx) => (
+                  {(activeReport?.additives || results.extraction?.additives).map((additive, idx) => (
                     <li key={idx} className="additive-item">{additive}</li>
                   ))}
                 </ul>
@@ -302,17 +317,18 @@ function ScanPage() {
               <h2 className="page-title">{t('meal.resultsTitle', 'Meal Analysis')}</h2>
             </div>
 
-            {/* Localize button for Meal */}
-            {locale !== 'en' && !localizedMealResults && mealStatus !== 'localizing' && (
-              <button
-                onClick={() => localizeMeal(mealResults, locale)}
-                className="btn-secondary btn-full"
-                style={{ marginBottom: '16px' }}
-              >
-                <Languages size={16} />
-                {t('results.translate', `Translate to ${locale.toUpperCase()}`)}
-              </button>
+            {/* Display Captured Meal Image */}
+            {currentImage && (
+              <div className="captured-image-container mb-6 flex justify-center">
+                <img
+                  src={currentImage}
+                  alt="Scanned Meal"
+                  className="rounded-lg shadow-md max-h-48 object-cover border-2 border-slate-200 dark:border-slate-700"
+                />
+              </div>
             )}
+
+            {/* Language Switcher Removed - Using Global Header */}
             {mealStatus === 'localizing' && (
               <LoadingSpinner message="Translating meal info..." />
             )}

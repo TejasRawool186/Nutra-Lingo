@@ -35,6 +35,8 @@
         "protein": "Protein",
         "additives": "Additives",
         "confidence": "Extraction Confidence",
+        "analogy": "Perspective",
+        "labelDetected": "Label detected in",
         "listenExplanation": "Listen to Explanation",
         "stopSpeaking": "Stop Speaking",
         "replay": "Replay",

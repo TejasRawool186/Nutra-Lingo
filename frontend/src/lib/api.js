@@ -26,14 +26,16 @@ export async function analyzeImage(base64Image, profile) {
  * POST /api/localize — Localize health report.
  * 🔹 Triggers Lingo.dev SDK on backend.
  */
-export async function localizeReport(healthReport, targetLanguage, profile) {
+export async function localizeReport(healthReport, targetLanguage, profile, ingredients, additives) {
     const res = await fetch(`${API_BASE}/api/localize`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             healthReport,
             targetLanguage,
-            profile
+            profile,
+            ingredients,
+            additives
         })
     });
 

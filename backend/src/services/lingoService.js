@@ -56,12 +56,29 @@ async function localizeReport(healthReport, targetLanguage, profile = {}) {
             voice_script: healthReport.voice_script,
         };
 
-        // Add warning texts
+        // Add warning texts (ingredient, risk, and type)
         if (healthReport.warnings && healthReport.warnings.length > 0) {
             contentToLocalize.warnings = {};
             healthReport.warnings.forEach((w, i) => {
                 contentToLocalize.warnings[`w${i}_ingredient`] = w.ingredient;
                 contentToLocalize.warnings[`w${i}_risk`] = w.risk;
+                contentToLocalize.warnings[`w${i}_type`] = w.type; // Translate type (e.g. HIGH SODIUM)
+            });
+        }
+
+        // Add ingredients list
+        if (healthReport.ingredients && Array.isArray(healthReport.ingredients)) {
+            contentToLocalize.ingredients = {};
+            healthReport.ingredients.forEach((ing, i) => {
+                contentToLocalize.ingredients[`ing_${i}`] = ing;
+            });
+        }
+
+        // Add additives list
+        if (healthReport.additives && Array.isArray(healthReport.additives)) {
+            contentToLocalize.additives = {};
+            healthReport.additives.forEach((add, i) => {
+                contentToLocalize.additives[`add_${i}`] = add;
             });
         }
 
@@ -79,11 +96,17 @@ async function localizeReport(healthReport, targetLanguage, profile = {}) {
             cultural_analogy: translated.cultural_analogy || healthReport.cultural_analogy,
             voice_script: translated.voice_script || healthReport.voice_script,
             warnings: healthReport.warnings.map((w, i) => ({
-                type: w.type,
+                type: translated.warnings?.[`w${i}_type`] || w.type,
                 ingredient: translated.warnings?.[`w${i}_ingredient`] || w.ingredient,
                 risk: translated.warnings?.[`w${i}_risk`] || w.risk,
                 severity: w.severity,
             })),
+            ingredients: healthReport.ingredients?.map((ing, i) =>
+                translated.ingredients?.[`ing_${i}`] || ing
+            ),
+            additives: healthReport.additives?.map((add, i) =>
+                translated.additives?.[`add_${i}`] || add
+            ),
         };
 
         const elapsed = Date.now() - startTime;
@@ -140,9 +163,6 @@ async function translateText(text, targetLanguage, sourceLanguage = 'auto') {
             sourceLocale: sourceLanguage === 'auto' ? undefined : sourceLanguage,
             targetLocale: targetLanguage,
         });
-        return translated.text || text;
-    } catch (error) {
-        logger.error('Lingo.dev text translation failed', { error: error.message });
         return translated.text || text;
     } catch (error) {
         logger.error('Lingo.dev text translation failed', { error: error.message });

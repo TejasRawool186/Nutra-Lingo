@@ -2,6 +2,7 @@
 
 import { useLocale } from '@/context/LocaleContext';
 import { BarChart3 } from 'lucide-react';
+import MacroChart from './MacroChart';
 
 /**
  * Parsed nutrition facts table with Lucide icon.
@@ -30,6 +31,9 @@ export default function NutritionTable({ nutrition = {} }) {
                 <BarChart3 size={18} />
                 {t('results.nutrition', 'Nutrition Facts')}
             </h3>
+
+            {/* Visual Macro Chart */}
+            <MacroChart nutrition={nutrition} />
             <table className="nt-table">
                 <tbody>
                     {rows.map(({ key, label, bold, indent }) => {

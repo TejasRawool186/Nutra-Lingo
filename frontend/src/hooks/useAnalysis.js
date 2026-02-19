@@ -35,10 +35,10 @@ export function useAnalysis() {
         }
     }, []);
 
-    const localize = useCallback(async (healthReport, targetLanguage, profile) => {
+    const localize = useCallback(async (healthReport, targetLanguage, profile, ingredients = [], additives = []) => {
         try {
             setStatus('localizing');
-            const localized = await localizeReport(healthReport, targetLanguage, profile);
+            const localized = await localizeReport(healthReport, targetLanguage, profile, ingredients, additives);
             setLocalizedResults(localized);
             setStatus('done');
             return localized;
