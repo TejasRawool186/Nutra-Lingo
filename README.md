@@ -65,12 +65,7 @@ For users requiring deeper insights, an interactive AI assistant is integrated i
 
 ![AI Assistant](ss/ss_ai_assistant.png)
 
----
 
-### Step 7 – AI Assistant
-For users requiring deeper insights, an interactive AI assistant is integrated into the report. Users can ask specific follow-up questions (e.g., "Why is soy lecithin bad for me?"). The assistant provides simplified interpretations and user guidance, maintaining the chosen language and localized tone.
-
-![AI Assistant](ss/ss_ai_assistant.png)
 
 ---
 
