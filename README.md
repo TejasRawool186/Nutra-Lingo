@@ -8,9 +8,11 @@ NutraLingo is a progressive web application that enables users to scan foreign-l
 
 ## The Problem
 
-Imagine traveling abroad, picking up a snack, and finding the nutritional label written in a language you don’t understand. For users managing conditions like diabetes or hypertension, this lack of clarity is a severe health risk.
+Imagine traveling to a foreign country for work or leisure. You walk into a grocery store to pick up a simple snack. You flip the packet over, but the ingredients and nutritional details are written entirely in a language you do not understand.
 
-Standard translation apps fail here. Translating individual ingredients loses critical medical context and doesn't explain the *health impact* for your specific dietary restrictions. Language barriers in food consumption create real hazards that simple translation cannot solve.
+If you are generally healthy, this might just be an inconvenience. However, if you are health-conscious, strictly monitoring your diet, or managing a condition like hypertension or diabetes, this lack of clarity is a severe health risk.
+
+Literal translation tools are insufficient for this scenario. Direct translation of technical or localized terms often loses critical medical context. Furthermore, understanding the raw translation of an ingredient does not explain its health implication for your specific dietary restrictions. Language barriers in the context of food consumption create genuine health hazards that standard translation APIs cannot resolve.
 
 ---
 
