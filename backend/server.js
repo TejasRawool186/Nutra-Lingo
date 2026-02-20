@@ -4,6 +4,13 @@ const express = require('express');
 const cors = require('cors');
 const errorHandler = require('./src/middleware/errorHandler');
 const rateLimiter = require('./src/middleware/rateLimiter');
+const { performanceMonitorMiddleware } = require('./src/utils/performanceMonitor');
+const logger = require('./src/utils/logger');
+
+console.log('--- LOGGER DEBUG CHECK ---');
+console.log('Logger keys:', Object.keys(logger));
+console.log('Has debug:', typeof logger.debug);
+console.log('--------------------------');
 
 const analyzeRoute = require('./src/routes/analyze');
 const localizeRoute = require('./src/routes/localize');
@@ -23,6 +30,10 @@ app.use(cors({
 }));
 
 app.use(express.json({ limit: '10mb' }));
+
+// 🚀 Performance monitoring middleware
+app.use(performanceMonitorMiddleware());
+
 app.use(rateLimiter);
 
 // --- Routes ---
@@ -33,9 +44,28 @@ app.use('/api/meal', mealRoute);
 app.use('/api/alternatives', alternativesRoute);
 app.use('/api/chat', chatRoute);
 
-// --- Health Check ---
+// --- Health Check with Performance Metrics ---
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', service: 'nutralingo-backend' });
+  const { performanceMonitor } = require('./src/utils/performanceMonitor');
+  res.json({
+    status: 'ok',
+    service: 'nutralingo-backend',
+    health: performanceMonitor.getHealthCheck()
+  });
+});
+
+// --- Performance Dashboard Endpoint (for monitoring) ---
+app.get('/api/metrics', (req, res) => {
+  const { performanceMonitor } = require('./src/utils/performanceMonitor');
+  const { llmCache } = require('./src/utils/llmResponseCache');
+  const { globalCache } = require('./src/utils/cacheManager');
+
+  res.json({
+    performance: performanceMonitor.getPerformanceDashboard(),
+    llmCache: llmCache.getStats(),
+    responseCache: globalCache.getStats(),
+    timestamp: new Date().toISOString()
+  });
 });
 
 // --- Error Handler (must be last) ---

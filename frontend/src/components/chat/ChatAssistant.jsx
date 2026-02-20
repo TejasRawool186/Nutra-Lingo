@@ -63,11 +63,11 @@ export default function ChatAssistant({ contextData }) {
     };
 
     return (
-        <div className="chat-assistant fixed bottom-6 right-6 z-50">
+        <div className="chat-assistant fixed bottom-[100px] right-4 sm:right-6 z-[150]">
             {!isOpen && (
                 <button
                     onClick={toggleChat}
-                    className="chat-toggle-btn bg-emerald-600 text-white p-4 rounded-full shadow-lg hover:bg-emerald-700 transition-all transform hover:scale-105"
+                    className="chat-toggle-btn bg-emerald-600 text-white p-4 rounded-full shadow-lg hover:bg-emerald-700 transition-all transform hover:scale-105 flex items-center justify-center min-w-[56px] min-h-[56px]"
                     aria-label={t('chat.open', 'Ask a Nutritionist')}
                 >
                     <MessageCircle size={28} />
@@ -75,63 +75,65 @@ export default function ChatAssistant({ contextData }) {
             )}
 
             {isOpen && (
-                <div className="chat-window bg-white dark:bg-slate-900 w-80 sm:w-96 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col h-[500px] transition-all animate-in slide-in-from-bottom-5">
+                <div className="chat-window bg-white dark:bg-slate-900 w-[calc(100vw-2rem)] sm:w-[380px] rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.2)] border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col h-[500px] max-h-[70dvh] transition-all animate-in slide-in-from-bottom-5">
                     {/* Header */}
-                    <div className="chat-header bg-emerald-600 p-4 text-white flex justify-between items-center">
+                    <div className="chat-header shrink-0 bg-gradient-to-r from-emerald-600 to-emerald-500 p-4 text-white flex justify-between items-center z-10">
                         <div className="flex items-center gap-2">
-                            <Sparkles size={20} className="text-yellow-300" />
-                            <h3 className="font-bold text-lg">{t('chat.title', 'Nutritionist AI')}</h3>
+                            <Sparkles size={20} className="text-yellow-300 drop-shadow-sm" />
+                            <h3 className="font-bold text-lg leading-tight">{t('chat.title', 'Nutritionist AI')}</h3>
                         </div>
-                        <button onClick={toggleChat} className="text-white/80 hover:text-white transition-colors">
+                        <button onClick={toggleChat} className="p-1 hover:bg-white/20 rounded-full transition-colors">
                             <X size={20} />
                         </button>
                     </div>
 
                     {/* Messages Area */}
-                    <div className="chat-messages flex-1 p-4 overflow-y-auto bg-slate-50 dark:bg-slate-950 flex flex-col gap-3">
+                    <div className="chat-messages flex-1 p-4 overflow-y-auto overflow-x-hidden bg-slate-50 dark:bg-slate-950 flex flex-col gap-4 relative">
                         {messages.length === 0 && (
-                            <div className="text-center text-slate-500 mt-10">
-                                <p className="mb-2">👋 {t('chat.welcome', 'Hi! I can answer questions about this product in your language.')}</p>
-                                <p className="text-xs">{t('chat.poweredBy', 'Powered by Lingo.dev')}</p>
+                            <div className="text-center text-slate-500 dark:text-slate-400 mt-8 mb-4 px-4">
+                                <p className="mb-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">👋 {t('chat.welcome', 'Hi! I can answer questions about this product in your language.')}</p>
+                                <p className="text-xs opacity-60 text-slate-500 dark:text-slate-400">{t('chat.poweredBy', 'Powered by Lingo.dev')}</p>
                             </div>
                         )}
 
                         {messages.map((msg, i) => (
                             <div
                                 key={i}
-                                className={`message p-3 rounded-lg max-w-[85%] text-sm ${msg.role === 'user'
-                                        ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-900 dark:text-emerald-100 self-end rounded-tr-none'
-                                        : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 self-start rounded-tl-none shadow-sm'
+                                className={`message p-3 rounded-2xl max-w-[85%] text-[14px] leading-relaxed shadow-sm break-words ${msg.role === 'user'
+                                    ? 'bg-emerald-100 dark:bg-emerald-800 text-emerald-950 dark:text-emerald-50 self-end rounded-br-sm'
+                                    : 'bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700/50 border text-slate-800 dark:text-slate-100 self-start rounded-bl-sm'
                                     }`}
                             >
                                 {msg.content}
                             </div>
                         ))}
+
                         {isLoading && (
-                            <div className="self-start bg-white dark:bg-slate-800 p-3 rounded-lg rounded-tl-none border border-slate-200 dark:border-slate-700 shadow-sm">
-                                <Loader2 size={16} className="animate-spin text-emerald-600" />
+                            <div className="self-start bg-white dark:bg-slate-800 p-3 rounded-2xl rounded-bl-sm border border-slate-100 dark:border-slate-700/50 shadow-sm flex items-center justify-center min-w-[48px] min-h-[44px]">
+                                <Loader2 size={18} className="animate-spin text-emerald-600 dark:text-emerald-400" />
                             </div>
                         )}
-                        <div ref={messagesEndRef} />
+                        <div ref={messagesEndRef} className="h-4 w-full shrink-0" />
                     </div>
 
                     {/* Input Area */}
-                    <div className="chat-input p-3 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 flex gap-2">
+                    <div className="chat-input shrink-0 p-3 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex gap-2 items-center z-10 shadow-[0_-4px_10px_rgba(0,0,0,0.02)] w-full">
                         <input
                             type="text"
                             value={inputValue}
                             onChange={(e) => setInputValue(e.target.value)}
                             onKeyDown={handleKeyPress}
                             placeholder={t('chat.placeholder', 'Ask a question...')}
-                            className="flex-1 bg-slate-100 dark:bg-slate-800 border-0 rounded-full px-4 py-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
+                            className="flex-1 bg-slate-100 dark:bg-slate-800/80 border border-transparent rounded-full px-4 py-2.5 text-[14px] text-slate-900 dark:text-gray-100 placeholder:text-slate-400 dark:placeholder:text-gray-400 focus:bg-white dark:focus:bg-slate-800 focus:border-emerald-500/30 focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all shadow-inner w-full min-w-0"
                             disabled={isLoading}
                         />
                         <button
                             onClick={handleSend}
                             disabled={!inputValue.trim() || isLoading}
-                            className="p-2 bg-emerald-600 text-white rounded-full hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            className="p-2.5 bg-emerald-600 text-white rounded-full hover:bg-emerald-700 disabled:opacity-50 disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:cursor-not-allowed transition-all shadow-md active:scale-95 flex items-center justify-center shrink-0 min-w-[38px] min-h-[38px]"
+                            aria-label="Send message"
                         >
-                            <Send size={18} />
+                            <Send size={18} className={isLoading ? "opacity-50" : ""} />
                         </button>
                     </div>
                 </div>
