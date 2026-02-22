@@ -2,6 +2,8 @@
 
 **"Your Food Label, Decoded in Your Language."**
 
+🌐 **[Live Demo: Try NutraLingo Here](https://nutra-lingo.vercel.app/)**
+
 🎥 **[Watch the Demo Video of NutraLingo](https://youtu.be/UrWymYM3UTY?si=06P1FU7DaCRPxQ3S)**
 
 NutraLingo is a progressive web application that enables users to scan foreign-language food labels and immediately understand the ingredient risks based on their personal health profile. By leveraging advanced image processing and localization intelligence, it transforms confusing packaging into actionable, native-language health insights.
